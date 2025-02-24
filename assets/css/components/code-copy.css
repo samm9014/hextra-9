@@ -1,0 +1,8 @@
+/* assets/css/components/code-copy.css */
+@supports (
+  (-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))
+) {
+  .hextra-code-copy-btn {
+    @apply hx-backdrop-blur-md hx-bg-opacity-[.85] dark:hx-bg-opacity-80;
+  }
+}

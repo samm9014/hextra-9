@@ -1,0 +1,106 @@
+# Hugo configuration file
+title: Eight Fortunes
+
+baseURL: http://localhost:1313/
+languageCode: en-us
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    noClasses: false
+
+imaging:
+  quality: 80
+  resampleFilter: lanczos
+  anchor: Smart
+  formats: 
+    - "webp"
+  exif:
+    disableDate: true
+    disableLatLong: true
+  webp:
+    quality: 80
+  resourceDir: "resources/_gen"
+
+module:
+  mounts:
+    - source: content
+      target: content
+    - source: assets
+      target: assets
+    - source: static
+      target: static
+
+menu:
+  main:
+    - name: Documentation
+      pageRef: /docs
+      weight: 1
+    - name: Blog
+      pageRef: /blog
+      weight: 2
+    - name: About
+      pageRef: /about
+      weight: 3
+    - name: Search
+      weight: 4
+      params:
+        type: search
+    - name: GitHub
+      weight: 5
+      url: ""
+      params:
+        icon: github
+
+params:
+  description: "Love in the Air" # Important for SEO
+  theme:
+    default: system
+    displayToggle: true
+  blog:
+    list:
+      paginate: 6
+      displayTags: true  
+  navbar:
+    displayTitle: true   
+  footer:
+    displayCopyright: true
+    copyright: "© 2025 Eight Fortunes."  # Optional: custom copyright text
+    socialMedia:
+      github:
+        enable: true
+        url: "https://github.com/yourusername"
+      twitter:
+        enable: true
+        url: "https://twitter.com/yourusername"
+      youtube:
+        enable: true
+        url: "https://www.youtube.com/@yourchannel"
+      tiktok:
+        enable: true
+        url: "https://www.tiktok.com/@yourusername"
+      instagram:
+        enable: true
+        url: "https://www.instagram.com/yourusername"
+      facebook:
+        enable: true
+        url: "https://www.facebook.com/yourusername"
+      snapchat:
+        enable: true
+        url: "https://www.snapchat.com/add/yourusername"
+
+  editURL:
+    enable: true
+    base: ""
+
+taxonomies:
+  tag: tags
+
+security:
+  enableInlineShortcodes: true
+
+build:
+  useResourceCacheWhen: fallback
+  writeStats: true

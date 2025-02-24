@@ -1,0 +1,30 @@
+{{/* layouts/shortcodes/image.html */}}
+{{ $src := .Get "src" }}
+{{ $alt := .Get "alt" }}
+{{ $width := .Get "width" | default "800" }}
+{{ $quality := .Get "quality" | default "85" }}
+
+{{ with .Page.Resources.GetMatch $src }}
+    {{ $image := . }}
+    {{ $processed := $image.Resize (printf "%sx webp q%s" $width $quality) }}
+    <figure class="my-4">
+        <img
+            src="{{ $processed.RelPermalink }}"
+            alt="{{ $alt }}"
+            width="{{ $processed.Width }}"
+            height="{{ $processed.Height }}"
+            loading="lazy"
+            decoding="async"
+            class="rounded-lg mx-auto"
+        >
+        {{ with $alt }}
+        <figcaption class="text-center text-sm text-gray-500 dark:text-gray-400 mt-2">
+            {{ . }}
+        </figcaption>
+        {{ end }}
+    </figure>
+{{ else }}
+    <div class="text-red-500">
+        Image "{{ $src }}" not found in page bundle
+    </div>
+{{ end }}

@@ -1,0 +1,12 @@
+{{/* layouts/partials/utils/page-description.html */}}
+{{ with .Description | plainify | htmlUnescape -}}
+  {{ . -}}
+{{ else -}}
+  {{ if .IsHome -}}
+    {{ with .Site.Params.description | plainify | htmlUnescape -}}
+      {{ . -}}
+    {{ end -}}
+  {{ else -}}
+    {{ .Summary | plainify | htmlUnescape | chomp -}}
+  {{ end -}}
+{{ end -}}

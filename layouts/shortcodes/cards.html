@@ -1,0 +1,4 @@
+{{/* layouts/shortcodes/cards.html */}}
+{{- $cols := .Get "cols" | default 3 -}}
+
+{{- partial "shortcodes/cards" (dict "cols" $cols "content" .Inner) -}}

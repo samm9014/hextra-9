@@ -1,0 +1,4 @@
+/* assets/css/components/badge.css */
+.hextra-badge {
+  @apply hx-inline-flex hx-items-center;
+}

@@ -1,0 +1,94 @@
+{{/* layouts/blog/list.html */}}
+{{ define "main" }}
+  {{- $readMore := (T "readMore") | default "Read more →" -}}
+  <div class="hx-mx-auto hx-flex {{ partial `utils/page-width` . }}">
+    {{ partial "sidebar.html" (dict "context" . "disableSidebar" true "displayPlaceholder" true) }}
+    <article class="hx-w-full hx-break-words hx-flex hx-min-h-[calc(100vh-var(--navbar-height))] hx-min-w-0 hx-justify-center hx-pb-8 hx-pr-[calc(env(safe-area-inset-right)-1.5rem)]">
+      <main class="hx-w-full hx-min-w-0 hx-max-w-6xl hx-px-6 hx-pt-4 md:hx-px-12">
+        {{ if .Title }}<h1 class="hx-text-center hx-mt-2 hx-text-4xl hx-font-bold hx-tracking-tight hx-text-slate-900 dark:hx-text-slate-100">{{ .Title }}</h1>{{ end }}
+        <div class="content hx-mb-8">{{ .Content }}</div>
+
+        {{ if .IsSection }}
+          <div class="hx-grid hx-gap-6 md:hx-grid-cols-2 lg:hx-grid-cols-3">
+            {{- $pages := .Paginator.Pages -}}
+            {{ range $pages }}
+              {{ $page := . }}
+              <article class="hx-group hx-flex hx-flex-col hx-overflow-hidden hx-rounded-xl hx-shadow-lg hx-bg-gray-50 dark:hx-bg-gray-900 hx-transition-all hover:hx-shadow-xl dark:hover:hx-shadow-lg dark:hover:hx-shadow-gray-800/50">
+                <a href="{{ .RelPermalink }}" class="hx-relative hx-block hx-overflow-hidden">
+                  {{/* Try to get the featured image first */}}
+                  {{ $image := "" }}
+                  {{ with .Params.featured_image }}
+                    {{ $image = $page.Resources.GetMatch . }}
+                  {{ else }}
+                    {{/* Fallback to first jpg/jpeg/png/webp in the bundle */}}
+                    {{ $image = (index ($page.Resources.ByType "image") 0) }}
+                  {{ end }}
+
+                  {{ with $image }}
+                    {{ $thumbnail := .Resize "500x300 webp q85" }}
+                    <img src="{{ $thumbnail.RelPermalink }}"
+                         class="hx-object-cover hx-w-full hx-h-48 hx-transition-transform hx-duration-300 group-hover:hx-scale-105"
+                         loading="lazy"
+                         alt="{{ .Title | default $page.Title }}"
+                         width="{{ $thumbnail.Width }}"
+                         height="{{ $thumbnail.Height }}">
+                  {{ else }}
+                    <div class="hx-bg-gray-100 dark:hx-bg-gray-800 hx-h-48 hx-flex hx-items-center hx-justify-center hx-text-gray-400">
+                      Image missing
+                    </div>
+                  {{ end }}
+                </a>
+
+                <div class="hx-flex-1 hx-p-6">
+                  <div class="hx-flex-1">
+                    <a href="{{ .RelPermalink }}" class="hx-block hx-text-xl hx-font-bold hx-text-gray-900 dark:hx-text-gray-100 hover:hx-text-primary-600 hx-mb-3">
+                      {{ .Title }}
+                    </a>
+                    <p class="hx-text-gray-600 dark:hx-text-gray-300 hx-text-sm hx-line-clamp-3">
+                      {{ .Params.summary | default (.Description | plainify) }}
+                    </p>
+                  </div>
+
+                  {{ with .GetTerms "tags" }}
+                    <div class="hx-mt-4 hx-flex hx-flex-wrap hx-gap-2">
+                      {{ range . }}
+                        <a href="{{ .Permalink }}" 
+                           class="hx-text-xs hx-font-medium hx-px-2.5 hx-py-1 hx-rounded-full hx-bg-gray-200/60 hover:hx-bg-primary-200 dark:hx-bg-gray-700 dark:hover:hx-bg-primary-400/20 hx-text-gray-700 dark:hx-text-gray-300 hx-transition-colors">
+                          {{ .LinkTitle }}
+                        </a>
+                      {{ end }}
+                    </div>
+                  {{ end }}
+
+                  <div class="hx-mt-5 hx-pt-4 hx-border-t hx-border-gray-200/50 dark:hx-border-gray-700/50">
+                    <div class="hx-flex hx-items-center hx-justify-between hx-text-xs">
+                      <time datetime="{{ .Date.Format "2006-01-02" }}" 
+                            class="hx-text-gray-500 dark:hx-text-gray-400">
+                        {{ .Date.Format "Jan 2, 2006" }}
+                      </time>
+                      <span class="hx-text-gray-400 dark:hx-text-gray-500">•</span>
+                      <span class="hx-text-gray-500 dark:hx-text-gray-400">
+                        {{ math.Round (div (countwords .Content) 220.0) }} min read
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            {{ end }}
+          </div>
+
+          {{ if gt .Paginator.TotalPages 1 }}
+            <div class="hx-mt-10">
+              {{ template "_internal/pagination.html" . }}
+            </div>
+          {{ end }}
+        {{ else }}
+          <div class="hx-text-center hx-text-gray-500">
+            No posts found in this section
+          </div>
+        {{ end }}
+      </main>
+    </article>
+    <div class="max-xl:hx-hidden hx-h-0 hx-w-64 hx-shrink-0"></div>
+  </div>
+{{- end -}}
