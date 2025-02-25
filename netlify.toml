@@ -1,6 +1,9 @@
 [build]
   publish = "public"
-  command = "hugo"
+  command = "hugo --gc --minify"
+  ignore = "false"
 
 [build.environment]
-  HUGO_VERSION = " v0.143.1"  
+  HUGO_VERSION = "0.123.7"  # Use the latest available version in Netlify
+  GO_VERSION = "1.22.3"
+  NODE_VERSION = "22.2.0"
