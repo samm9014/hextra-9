@@ -1,8 +1,9 @@
 # Hugo configuration file
 title: Eight Fortunes
 
-baseURL: http://localhost:1313/
+baseURL: https://roaring-tartufo-e95dee.netlify.app/
 languageCode: en-us
+
 
 markup:
   goldmark:
@@ -12,7 +13,7 @@ markup:
     noClasses: false
 
 imaging:
-  quality: 80
+  quality: 85
   resampleFilter: lanczos
   anchor: Smart
   formats: 
@@ -21,7 +22,7 @@ imaging:
     disableDate: true
     disableLatLong: true
   webp:
-    quality: 80
+    quality: 85
   resourceDir: "resources/_gen"
 
 module:
@@ -32,6 +33,12 @@ module:
       target: assets
     - source: static
       target: static
+    - source: layouts
+      target: layouts
+    - source: data
+      target: data
+    - source: assets/js
+      target: assets/js
 
 menu:
   main:
@@ -55,16 +62,22 @@ menu:
         icon: github
 
 params:
-  description: "Love in the Air" # Important for SEO
+  description: "Discovering hidden opportunities in the everyday" # Important for SEO
   theme:
     default: system
     displayToggle: true
+  
+  # Blog settings
   blog:
     list:
       paginate: 6
       displayTags: true  
+      
+  # Navbar settings
   navbar:
-    displayTitle: true   
+    displayTitle: true
+       
+  # Footer settings
   footer:
     displayCopyright: true
     copyright: "© 2025 Eight Fortunes."  # Optional: custom copyright text

@@ -4,7 +4,7 @@
   ignore = "false"
 
 [build.environment]
-  HUGO_VERSION = "0.123.7"  # Use the latest available version in Netlify
+  HUGO_VERSION = "0.138.0"  # Use the latest available version in Netlify
   GO_VERSION = "1.22.3"
   NODE_VERSION = "22.2.0"
   HUGO_ENV = "production"

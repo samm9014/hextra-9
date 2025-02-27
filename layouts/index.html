@@ -1,77 +1,60 @@
 {{/* layouts/index.html */}}
 {{ define "main" }}
-<div class='hx-mx-auto hx-flex {{ partial "utils/page-width" . }}'>
-  {{ partial "sidebar.html" (dict "context" . "disableSidebar" true "displayPlaceholder" true) }}
-  {{ partial "toc.html" . }}
-  <article
-    class="hx-w-full hx-break-words hx-flex hx-min-h-[calc(100vh-var(--navbar-height))] hx-min-w-0 hx-justify-center hx-pb-8 hx-pr-[calc(env(safe-area-inset-right)-1.5rem)]">
-    <main class="hx-w-full hx-min-w-0 hx-max-w-6xl hx-px-6 hx-pt-4 md:hx-px-12">
-      <!-- Hero Section -->
-      <div class="hx-flex hx-flex-col hx-items-center hx-text-center hx-py-20">
-        <h1
-          class="hx-text-4xl md:hx-text-6xl hx-font-bold hx-tracking-tight hx-text-slate-900 dark:hx-text-slate-100 hx-max-w-3xl">
-          {{ .Title }}
-        </h1>
-        {{ with .Params.description }}
-        <p class="hx-mt-6 hx-text-xl hx-text-slate-600 dark:hx-text-slate-400 hx-max-w-2xl">
-          {{ . }}
-        </p>
-        {{ end }}
-        <div class="hx-mt-8">
-          <a href="/docs"
-            class="hx-inline-block hx-bg-primary-600 hover:hx-bg-primary-700 hx-text-white hx-px-6 hx-py-3 hx-rounded-lg hx-font-medium hx-transition-colors">
-            Get Started
-          </a>
-        </div>
-      </div>     
-      <!-- Feature Grid -->
-      <div class="hx-grid hx-grid-cols-1 md:hx-grid-cols-2 lg:hx-grid-cols-3 hx-gap-8 hx-mt-12">
-        {{ range $index, $feature := .Params.features }}
-        <div class="hx-transform hover:hx-scale-[1.02] hx-transition-all hx-duration-300">
-          <div class="hextra-feature-card hx-group hx-relative hx-overflow-hidden hx-rounded-xl 
-                      hx-border dark:hx-border-neutral-800
-                      hx-shadow-lg hover:hx-shadow-xl hx-transition-all">
-            <div class="hx-absolute hx-inset-0 bg-gradient-to-br {{ .gradient }} hx-opacity-70"></div>
-            <div class="hx-relative hx-p-6 hx-z-10">
-              <h2 class="hx-font-semibold hx-text-xl hx-text-slate-900 dark:hx-text-slate-100">{{ .title }}</h2>
-              <p class="hx-mt-2 hx-text-slate-600 dark:hx-text-slate-400">{{ .description }}</p>
-              {{ with resources.Get (printf "images/%s" .image) }}
-                {{ if eq $index 0 }}
-                  <!-- First image: High priority, potentially the LCP -->
-                  {{ $imageLarge := .Resize "800x webp q85" }}
-                  {{ $imageMedium := .Resize "600x webp q85" }}
-                  {{ $imageSmall := .Resize "400x webp q85" }}
-                  <img 
-                    src="{{ $imageMedium.RelPermalink }}"
-                    srcset="{{ $imageSmall.RelPermalink }} 400w, {{ $imageMedium.RelPermalink }} 600w, {{ $imageLarge.RelPermalink }} 800w"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    alt="{{ $feature.title }} feature"
-                    class="hx-mt-4 hx-rounded-lg hx-shadow-md hx-transition-transform hx-duration-300 group-hover:hx-scale-[1.02]"
-                    width="{{ $imageMedium.Width }}" 
-                    height="{{ $imageMedium.Height }}"
-                    fetchpriority="high"
-                    decoding="async"
-                  >
-                {{ else }}
-                  <!-- Other images: Lazy loaded -->
-                  {{ $image := .Resize "600x webp q80" }}
-                  <img 
-                    src="{{ $image.RelPermalink }}"
-                    alt="{{ $feature.title }} feature"
-                    class="hx-mt-4 hx-rounded-lg hx-shadow-md hx-transition-transform hx-duration-300 group-hover:hx-scale-[1.02]"
-                    width="{{ $image.Width }}" 
-                    height="{{ $image.Height }}"
-                    loading="lazy"
-                    decoding="async"
-                  >
-                {{ end }}
-              {{ end }}
-            </div>
-          </div>
-        </div>
-        {{ end }}
-      </div>
-    </main>
-  </article>
+<div class="container mx-auto px-4 py-12">
+  <!-- Hero Section with Fortune Wheel -->
+  <header class="text-center mb-8">
+    <h1 class="text-4xl font-bold mb-4">Eight Fortunes</h1>
+    <p class="text-xl max-w-2xl mx-auto">Discovering hidden opportunities and untapped value in the everyday things we often overlook. Spin the wheel to explore a category.</p>
+  </header>
+
+  <!-- Fortune Wheel Section -->
+  <section class="my-12 max-w-2xl mx-auto">
+    {{ partial "fortune-dial.html" . }}
+  </section>
 </div>
+
+<!-- Add JavaScript for the fortune wheel -->
+{{ $js := resources.Get "js/fortune-wheel.js" | resources.Minify | resources.Fingerprint }}
+<script src="{{ $js.RelPermalink }}" defer></script>
+
+<!-- confetti scripts -->
+{{ $miniConfettiJS := resources.Get "js/mini-confetti.js" | resources.Minify | resources.Fingerprint }}
+<script src="{{ $miniConfettiJS.RelPermalink }}" integrity="{{ $miniConfettiJS.Data.Integrity }}" defer></script>
+
+<!-- Add CSS for the fortune wheel -->
+{{ $css := resources.Get "css/components/fortune-wheel.css" | resources.Minify | resources.Fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}">
+
+
+<style>
+  /* Dark mode fixes */
+  @media (prefers-color-scheme: dark) {
+    #prev-category, #current-category, #next-category {
+      color: white;
+    }
+    
+    .selection-highlight {
+      background-color: #374151 !important;
+    }
+    
+    div[style*="background-color: white"] {
+      background-color: #1f2937 !important;
+    }
+  }
+  
+  /* For explicit dark mode class */
+  .dark #prev-category, 
+  .dark #current-category, 
+  .dark #next-category {
+    color: white;
+  }
+  
+  .dark .selection-highlight {
+    background-color: #374151 !important;
+  }
+  
+  .dark div[style*="background-color: white"] {
+    background-color: #1f2937 !important;
+  }
+</style>
 {{ end }}

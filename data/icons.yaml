@@ -308,3 +308,19 @@ snapchat: >
   <svg viewBox="0 0 24 24" fill="currentColor">
   <path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.299 4.847l-.003.06c-.012.18-.022.345-.03.51.075.045.203.09.401.09.3-.016.659-.12 1.033-.301.165-.088.344-.104.464-.104.182 0 .359.029.509.09.45.149.734.479.734.838.015.449-.39.839-1.213 1.168-.089.029-.209.075-.344.119-.45.135-1.139.36-1.333.81-.09.224-.061.524.12.868l.015.015c.06.136 1.526 3.475 4.791 4.014.255.044.425.27.42.509 0 .075-.015.149-.045.225-.24.569-1.273.988-3.146 1.271-.059.091-.12.375-.164.57-.029.179-.074.36-.134.553-.076.271-.27.405-.555.405h-.03c-.135 0-.313-.031-.538-.074-.36-.075-.765-.135-1.273-.135-.3 0-.599.015-.913.074-.6.104-1.123.448-1.679.809-.766.495-1.429.92-2.55.92-.016 0-.031 0-.075 0-.631 0-1.264-.404-1.995-.884-.525-.361-1.064-.734-1.679-.838-.314-.045-.629-.06-.928-.06-.54 0-.937.069-1.313.145-.209.029-.404.06-.524.074-.165 0-.314-.061-.434-.194-.121-.135-.195-.321-.224-.57-.029-.179-.074-.36-.134-.553-.045-.195-.105-.435-.164-.57-1.873-.284-2.906-.704-3.146-1.271-.029-.075-.045-.149-.045-.225-.015-.243.165-.465.42-.509 3.146-.539 4.711-3.878 4.771-4.014l.016-.029c.18-.345.224-.645.119-.869-.195-.434-.884-.658-1.332-.809-.121-.029-.24-.074-.346-.119-1.107-.435-1.257-.93-1.197-1.273.09-.479.674-.793 1.168-.793.146 0 .27.029.383.074.42.194.789.3 1.104.3.234 0 .384-.06.465-.105l-.046-.569c-.098-1.626-.225-3.651.307-4.837C7.392 1.077 10.739.807 11.727.807l.419-.015h.06z"/>
   </svg>
+ # Fortune wheel category icons
+overlookedObjects: <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 7v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16 21v-2.5M8 21v-2.5M12 17.5V21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 12a2 2 0 100-4 2 2 0 000 4z" fill="currentColor"/></svg>
+
+dailyHabits: <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+perspectiveFlips: <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+spottingOpportunities: <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 15.5L20 20M10 17a7 7 0 110-14 7 7 0 010 14z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+
+valueCreation: <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 6v12M6 12h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+quiz: <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 17.5v.5m0-7.5v3.5m7.5 0a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+
+todaysFortune: <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 22h14M12 2v6m-4 4h8m-4-3v6m-6.2-3l-.8 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+
+hiddenSpaces: <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 8v13H3V8M23 3H1v5h22V3zM10 12h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> 

@@ -1,0 +1,230 @@
+/* assets/css/components/fortune-wheel.css */
+
+/* Container styles */
+.fortune-dial-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 2rem auto;
+}
+
+/* Wheel wrapper positioning */
+.fortune-wheel-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  aspect-ratio: 1/1;
+}
+
+/* Pointer styling */
+.wheel-pointer {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.2));
+  pointer-events: none;
+}
+
+/* Main wheel container */
+.fortune-wheel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* IMPORTANT: Remove the filter in dark mode that was changing wheel colors */
+.dark .fortune-wheel img {
+  /* Remove this line to prevent color changes: */
+  /* filter: invert(0.2) hue-rotate(180deg); */
+  
+  /* Instead just slightly darken the background but keep colors: */
+  filter: brightness(0.95);
+}
+
+/* Wheel icons */
+.wheel-icon {
+  width: 24px; 
+  height: 24px;
+  position: absolute;
+  z-index: 5;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Icon container */
+.wheel-icon > div {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.wheel-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Category box - Common styles */
+.category-box {
+  position: relative;
+  height: 150px;
+  background-color: white;
+  border-radius: 0.5rem;
+  border: 2px solid #e5e7eb;
+  overflow: hidden;
+  margin: 0 auto 1rem;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode for category box */
+.dark .category-box {
+  background-color: #1f2937;
+  border-color: #374151;
+}
+
+/* Selection highlight - Common styles */
+.selection-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50px;
+  top: 50px;
+  background-color: #f3f4f6;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  z-index: 0;
+}
+
+/* Dark mode for highlight */
+.dark .selection-highlight {
+  background-color: #374151;
+  border-color: #4b5563;
+}
+
+/* Category slots - Common styles */
+.category-slots {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
+
+/* Category slot - Common styles */
+.category-slot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  overflow: hidden;
+  color: #374151;
+}
+
+/* Dark mode for slots */
+.dark .category-slot {
+  color: #e5e7eb;
+}
+
+/* Individual slot positions */
+#prev-category {
+  top: 0;
+}
+
+#current-category {
+  top: 50px;
+  font-weight: 600;
+}
+
+#next-category {
+  top: 100px;
+}
+
+/* Category items */
+.category-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* Category name - text portion */
+.category-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Category icon */
+.category-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 12px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Result display */
+.fortune-result {
+  width: 100%;
+  max-width: 400px;
+  margin: 1.5rem auto 0;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  background-color: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* txt on static wings */
+.wheel-labels {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 6;
+  transition: opacity 0.3s ease;
+}
+
+.wheel-label {
+  position: absolute;
+  transform-origin: center center;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  max-width: 80px;
+  transition: opacity 0.3s ease;
+}
+
+
+/* Dark mode for result */
+.dark .fortune-result {
+  background-color: #1f2937;
+  border-color: #374151;
+}
+
+/* Mobile adjustments */
+@media (max-width: 640px) {
+  .category-item {
+    font-size: 0.9rem;
+  }
+}

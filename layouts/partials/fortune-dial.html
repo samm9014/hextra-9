@@ -1,0 +1,93 @@
+{{/* layouts/partials/fortune-dial.html */}}
+<div class="fortune-dial-container relative flex flex-col items-center justify-center my-8">
+  <div class="fortune-wheel-wrapper relative w-full max-w-md mx-auto">
+    <!-- Pointer indicator -->
+    <div class="wheel-pointer absolute z-10" style="top: 0; left: 50%; transform: translateX(-50%);">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 0L25 20H15L20 0Z" fill="#3B82F6" />
+      </svg>
+    </div>
+    
+    <!-- The wheel -->
+    <div id="fortune-wheel" class="fortune-wheel transition-transform duration-[3000ms] ease-out">
+      <img id="fortune-wheel-image" src="data:image/svg+xml,%3Csvg width='400' height='400' viewBox='0 0 400 400' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='200' cy='200' r='198' fill='white' stroke='%23e5e7eb' stroke-width='2'/%3E%3Cpath d='M200,200 L200,2 A198,198 0 0,1 342.6,57.4 Z' fill='%23F87171' stroke='white'/%3E%3Cpath d='M200,200 L342.6,57.4 A198,198 0 0,1 398,200 Z' fill='%2360A5FA' stroke='white'/%3E%3Cpath d='M200,200 L398,200 A198,198 0 0,1 342.6,342.6 Z' fill='%2334D399' stroke='white'/%3E%3Cpath d='M200,200 L342.6,342.6 A198,198 0 0,1 200,398 Z' fill='%23A78BFA' stroke='white'/%3E%3Cpath d='M200,200 L200,398 A198,198 0 0,1 57.4,342.6 Z' fill='%23FBBF24' stroke='white'/%3E%3Cpath d='M200,200 L57.4,342.6 A198,198 0 0,1 2,200 Z' fill='%23F472B6' stroke='white'/%3E%3Cpath d='M200,200 L2,200 A198,198 0 0,1 57.4,57.4 Z' fill='%236EE7B7' stroke='white'/%3E%3Cpath d='M200,200 L57.4,57.4 A198,198 0 0,1 200,2 Z' fill='%2393C5FD' stroke='white'/%3E%3Ccircle cx='200' cy='200' r='50' fill='%233B82F6'/%3E%3Ctext x='200' y='205' text-anchor='middle' fill='white' font-family='sans-serif' font-size='16' font-weight='bold'%3ESPIN%3C/text%3E%3C/svg%3E" alt="Fortune Wheel" class="w-full h-auto">
+      
+      <!-- Icons as separate absolute positioned divs -->
+      <div class="wheel-icon absolute" style="top: 80px; left: 255px; transform: translate(-50%, -50%);" data-category="objects">
+        <div class="bg-[#F87171] text-white p-2 rounded-full">
+          {{ with index site.Data.icons "overlookedObjects" }}{{ . | safeHTML }}{{ end }}
+        </div>
+      </div>
+      
+      <div class="wheel-icon absolute" style="top: 155px; left: 320px; transform: translate(-50%, -50%);" data-category="habits">
+        <div class="bg-[#60A5FA] text-white p-2 rounded-full">
+          {{ with index site.Data.icons "dailyHabits" }}{{ . | safeHTML }}{{ end }}
+        </div>
+      </div>
+      
+      <div class="wheel-icon absolute" style="top: 245px; left: 320px; transform: translate(-50%, -50%);" data-category="perspective">
+        <div class="bg-[#34D399] text-white p-2 rounded-full">
+          {{ with index site.Data.icons "perspectiveFlips" }}{{ . | safeHTML }}{{ end }}
+        </div>
+      </div>
+      
+      <div class="wheel-icon absolute" style="top: 320px; left: 255px; transform: translate(-50%, -50%);" data-category="opportunities">
+        <div class="bg-[#A78BFA] text-white p-2 rounded-full">
+          {{ with index site.Data.icons "spottingOpportunities" }}{{ . | safeHTML }}{{ end }}
+        </div>
+      </div>
+      
+      <div class="wheel-icon absolute" style="top: 320px; left: 145px; transform: translate(-50%, -50%);" data-category="value">
+        <div class="bg-[#FBBF24] text-white p-2 rounded-full">
+          {{ with index site.Data.icons "valueCreation" }}{{ . | safeHTML }}{{ end }}
+        </div>
+      </div>
+      
+      <div class="wheel-icon absolute" style="top: 245px; left: 80px; transform: translate(-50%, -50%);" data-category="quiz">
+        <div class="bg-[#F472B6] text-white p-2 rounded-full">
+          {{ with index site.Data.icons "quiz" }}{{ . | safeHTML }}{{ end }}
+        </div>
+      </div>
+      
+      <div class="wheel-icon absolute" style="top: 155px; left: 80px; transform: translate(-50%, -50%);" data-category="todays-fortune">
+        <div class="bg-[#6EE7B7] text-white p-2 rounded-full">
+          {{ with index site.Data.icons "todaysFortune" }}{{ . | safeHTML }}{{ end }}
+        </div>
+      </div>
+      
+      <div class="wheel-icon absolute" style="top: 80px; left: 145px; transform: translate(-50%, -50%);" data-category="spaces">
+        <div class="bg-[#93C5FD] text-white p-2 rounded-full">
+          {{ with index site.Data.icons "hiddenSpaces" }}{{ . | safeHTML }}{{ end }}
+        </div>
+      </div>
+    </div>
+    
+    <!-- Wheel labels layer (placed inside the wrapper) -->
+    <div id="wheel-labels" class="wheel-labels absolute inset-0 pointer-events-none">
+      <!-- Labels will be added via JavaScript -->
+    </div>
+  </div>
+  
+  <!-- Category List Box -->
+  <div class="category-box">
+    <!-- Selection Highlight -->
+    <div class="selection-highlight"></div>
+    
+    <!-- Fixed slots for categories -->
+    <div class="category-slots">
+      <!-- Previous slot -->
+      <div id="prev-category" class="category-slot"></div>
+      
+      <!-- Current slot -->
+      <div id="current-category" class="category-slot"></div>
+      
+      <!-- Next slot -->
+      <div id="next-category" class="category-slot"></div>
+    </div>
+  </div>
+  
+  <!-- Result display -->
+  <div id="fortune-result" class="fortune-result mt-6 text-center p-4 rounded-lg bg-gray-100 dark:bg-gray-800 transition-all duration-300 opacity-0 border border-gray-200 dark:border-gray-700">
+    <a id="fortune-category-link" href="#" class="mt-3 inline-block px-4 py-2 bg-primary text-white dark:bg-primary-dark rounded-md transition-colors">Explore Selected Category</a>
+  </div>
+</div>
