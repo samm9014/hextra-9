@@ -5,6 +5,10 @@
   width: 100%;
   max-width: 100%;
   margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Wheel wrapper positioning */
@@ -39,10 +43,6 @@
 
 /* IMPORTANT: Remove the filter in dark mode that was changing wheel colors */
 .dark .fortune-wheel img {
-  /* Remove this line to prevent color changes: */
-  /* filter: invert(0.2) hue-rotate(180deg); */
-  
-  /* Instead just slightly darken the background but keep colors: */
   filter: brightness(0.95);
 }
 
@@ -189,30 +189,6 @@
   background-color: #f3f4f6;
   border: 1px solid #e5e7eb;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-/* txt on static wings */
-.wheel-labels {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 6;
-  transition: opacity 0.3s ease;
-}
-
-.wheel-label {
-  position: absolute;
-  transform-origin: center center;
-  text-align: center;
-  font-size: 12px;
-  font-weight: 600;
-  color: white;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-  max-width: 80px;
-  transition: opacity 0.3s ease;
 }
 
 

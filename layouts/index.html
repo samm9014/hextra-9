@@ -1,16 +1,17 @@
-{{/* layouts/index.html */}}
 {{ define "main" }}
-<div class="container mx-auto px-4 py-12">
+<div class="hx-container hx-mx-auto hx-px-4 hx-py-12">
   <!-- Hero Section with Fortune Wheel -->
-  <header class="text-center mb-8">
-    <h1 class="text-4xl font-bold mb-4">Eight Fortunes</h1>
-    <p class="text-xl max-w-2xl mx-auto">Discovering hidden opportunities and untapped value in the everyday things we often overlook. Spin the wheel to explore a category.</p>
-  </header>
+  <div class="hx-flex hx-flex-col hx-items-center hx-justify-center">
+    <header class="hx-text-center hx-mb-8 hx-max-w-2xl">
+      <h1 class="hx-text-4xl hx-font-bold hx-mb-4">Eight Fortunes</h1>
+      <p class="hx-text-xl">Discovering hidden opportunities and untapped value in the everyday things we often overlook. Spin the wheel to explore a category.</p>
+    </header>
 
-  <!-- Fortune Wheel Section -->
-  <section class="my-12 max-w-2xl mx-auto">
-    {{ partial "fortune-dial.html" . }}
-  </section>
+    <!-- Fortune Wheel Section -->
+    <section class="hx-w-full hx-max-w-4xl">
+      {{ partial "fortune-dial.html" . }}
+    </section>
+  </div>
 </div>
 
 <!-- Add JavaScript for the fortune wheel -->
@@ -24,6 +25,7 @@
 <!-- Add CSS for the fortune wheel -->
 {{ $css := resources.Get "css/components/fortune-wheel.css" | resources.Minify | resources.Fingerprint }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+
 
 
 <style>
@@ -57,4 +59,5 @@
     background-color: #1f2937 !important;
   }
 </style>
+
 {{ end }}
