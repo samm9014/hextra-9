@@ -1,1 +1,244 @@
 /* assets/css/custom.css */
+/*delete all this if you add anything
+
+/* assets/css/custom.css */
+
+/* Site-wide Light/Dark Mode Styles */
+:root {
+  /* Light mode variables */
+  --background-color: #f0eada;
+  --text-color: #333333;
+  --link-color: #2563eb;
+  --link-hover: #1e40af;
+}
+
+/* Light mode (default) */
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+/* Dark mode gradient */
+body.dark {
+  background: linear-gradient(135deg, #1a2a3a 0%, #0f3443 50%, #134e5e 100%);
+  color: #e5e7eb;
+}
+
+body.dark a:not(.btn) {
+  color: #93c5fd;
+}
+
+body.dark a:hover:not(.btn) {
+  color: #bfdbfe;
+}
+
+/* Improve contrast for main content area in dark mode */
+body.dark .content {
+  background-color: rgba(17, 24, 39, 0.7);
+  border-radius: 8px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+}
+
+/* ===== Fortune Wheel Styles ===== */
+
+/* Base Container Styles */
+.fortune-dial-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Fortune Wheel Styles */
+.fortune-wheel-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  aspect-ratio: 1/1;
+}
+
+.fortune-wheel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Pointer above the wheel */
+.wheel-pointer {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.2));
+  pointer-events: none;
+}
+
+/* Icons on wheel - basic structure */
+.wheel-icon {
+  position: absolute;
+  z-index: 5;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+.wheel-icon > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Category Box Styles */
+.category-box {
+  position: relative;
+  height: 150px;
+  background-color: transparent;
+  border-radius: 0.5rem;
+  border: 2px solid #e5e7eb;
+  overflow: hidden;
+  margin: 1.5rem auto;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Selection highlight - shows current choice */
+.selection-highlight {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50px;
+  top: 50px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  z-index: 0;
+}
+
+/* Category slots container */
+.category-slots {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
+
+/* Individual slot styling */
+.category-slot {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Position each slot */
+#prev-category {
+  top: 0;
+}
+
+#current-category {
+  top: 50px;
+  font-weight: 600;
+}
+
+#next-category {
+  top: 100px;
+}
+
+/* Category item styling - category entry with color bg */
+.category-item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0 16px;
+}
+
+/* Category name text */
+.category-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Category icon circle */
+.category-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 12px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Result Display Styles - minimal styling just for initial state */
+.fortune-result {
+  opacity: 0; /* Start hidden */
+}
+
+/* Basic structure for accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Dark Mode Adjustments for fortune wheel */
+.dark .category-box {
+  border-color: #374151;
+}
+
+.dark .selection-highlight {
+  background-color: rgba(55, 65, 81, 0.5);
+  border-color: rgba(75, 85, 99, 0.3);
+}
+
+/* Ensure wheel image doesn't get too dark */
+.dark .fortune-wheel img {
+  filter: brightness(0.95);
+}
+
+/* Mobile Optimizations */
+@media (max-width: 640px) {
+  .category-icon {
+    width: 28px;
+    height: 28px;
+    margin-right: 8px;
+  }
+  
+  .category-name {
+    font-size: 0.9rem;
+  }
+}
+
+/* Reduced Motion Accommodations */
+@media (prefers-reduced-motion: reduce) {
+  .fortune-wheel,
+  .wheel-icon,
+  .fortune-result {
+    transition-duration: 0.1s !important;
+  }
+}
