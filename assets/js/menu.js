@@ -6,14 +6,22 @@ document.addEventListener('DOMContentLoaded', function () {
   const overlay = document.querySelector('.mobile-menu-overlay');
   const sidebarContainer = document.querySelector('.sidebar-container');
 
+  // Exit early if any required element is missing
+  if (!menu || !overlay || !sidebarContainer) {
+    return;
+  }
+
   // Initialize the overlay
   const overlayClasses = ['hx-fixed', 'hx-inset-0', 'hx-z-10', 'hx-bg-black/80', 'dark:hx-bg-black/60'];
   overlay.classList.add('hx-bg-transparent');
   overlay.classList.remove("hx-hidden", ...overlayClasses);
 
   function toggleMenu() {
-    // Toggle the hamburger menu
-    menu.querySelector('svg').classList.toggle('open');
+    // Toggle the hamburger menu icon
+    const icon = menu.querySelector('svg');
+    if (icon) {
+      icon.classList.toggle('open');
+    }
 
     // When the menu is open, we want to show the navigation sidebar
     sidebarContainer.classList.toggle('max-md:[transform:translate3d(0,-100%,0)]');
