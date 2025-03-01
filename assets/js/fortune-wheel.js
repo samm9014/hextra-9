@@ -179,8 +179,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-  // assets/js/fortune-wheel.js
-  // PART 2: Hover System and Tooltips - FIXED VERSION
+
+  // PART 2: Hover System and Tooltips 
 
   // Create and add tooltip element
   const tooltip = document.createElement('div');
@@ -417,52 +417,96 @@ document.addEventListener('DOMContentLoaded', function() {
     wheelWrapper.appendChild(centerArea);
   }
   
-  // Create a category item for display panel
-  function createCategoryItem(category) {
-    const item = document.createElement('div');
-    item.className = 'category-item';
-    item.style.display = 'flex';
-    item.style.alignItems = 'center';
-    item.style.width = '100%';
-    
-    // Icon container
-    const iconBox = document.createElement('div');
-    iconBox.className = 'category-icon';
-    iconBox.style.width = '32px';
-    iconBox.style.height = '32px';
-    iconBox.style.borderRadius = '50%';
-    iconBox.style.marginRight = '12px';
-    iconBox.style.flexShrink = '0';
-    iconBox.style.display = 'flex';
-    iconBox.style.alignItems = 'center';
-    iconBox.style.justifyContent = 'center';
-    iconBox.style.backgroundColor = category.color;
-    
-    // Get the icon from the wheel
-    const wheelIcon = document.querySelector(`.wheel-icon[data-category="${category.slug}"] div`);
-    if (wheelIcon) {
-      const iconWrapper = document.createElement('div');
-      iconWrapper.style.width = '20px';
-      iconWrapper.style.height = '20px';
-      iconWrapper.style.color = 'white';
-      iconWrapper.innerHTML = wheelIcon.innerHTML;
-      iconBox.appendChild(iconWrapper);
-    }
-    
-    // Text label
-    const label = document.createElement('span');
-    label.className = 'category-name';
-    label.textContent = category.name;
-    label.style.whiteSpace = 'nowrap';
-    label.style.overflow = 'hidden';
-    label.style.textOverflow = 'ellipsis';
-    
-    // Assemble item
-    item.appendChild(iconBox);
-    item.appendChild(label);
-    
-    return item;
+  // Updated createCategoryItem function for Part 2
+function createCategoryItem(category) {
+  const item = document.createElement('div');
+  item.className = 'category-item';
+  item.style.display = 'flex';
+  item.style.alignItems = 'center';
+  item.style.width = '100%';
+  item.style.backgroundColor = category.color; // Set background to category color
+  item.style.padding = '4px 8px';
+  item.style.borderRadius = '4px';
+  
+  // Calculate contrasting text color
+  const r = parseInt(category.color.slice(1, 3), 16);
+  const g = parseInt(category.color.slice(3, 5), 16);
+  const b = parseInt(category.color.slice(5, 7), 16);
+  const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+  const textColor = brightness < 128 ? 'white' : 'black';
+  
+  // Icon container
+  const iconBox = document.createElement('div');
+  iconBox.className = 'category-icon';
+  iconBox.style.width = '32px';
+  iconBox.style.height = '32px';
+  iconBox.style.borderRadius = '50%';
+  iconBox.style.marginRight = '12px';
+  iconBox.style.flexShrink = '0';
+  iconBox.style.display = 'flex';
+  iconBox.style.alignItems = 'center';
+  iconBox.style.justifyContent = 'center';
+  
+  // Make icon background slightly different from item background for contrast
+  const lighterColor = shadeColor(category.color, 15); // Slightly lighter version
+  iconBox.style.backgroundColor = lighterColor;
+  
+  // Get the icon from the wheel
+  const wheelIcon = document.querySelector(`.wheel-icon[data-category="${category.slug}"] div`);
+  if (wheelIcon) {
+    const iconWrapper = document.createElement('div');
+    iconWrapper.style.width = '20px';
+    iconWrapper.style.height = '20px';
+    iconWrapper.style.color = textColor;
+    iconWrapper.innerHTML = wheelIcon.innerHTML;
+    iconBox.appendChild(iconWrapper);
   }
+  
+  // Text label
+  const label = document.createElement('span');
+  label.className = 'category-name';
+  label.textContent = category.name;
+  label.style.whiteSpace = 'nowrap';
+  label.style.overflow = 'hidden';
+  label.style.textOverflow = 'ellipsis';
+  label.style.color = textColor; // Set contrasting text color
+  label.style.fontWeight = '600'; // Make text slightly bolder for better readability
+  
+  // Assemble item
+  item.appendChild(iconBox);
+  item.appendChild(label);
+  
+  return item;
+}
+
+// Add this helper function if it doesn't exist already in your code
+function shadeColor(color, percent) {
+  let R = parseInt(color.substring(1,3), 16);
+  let G = parseInt(color.substring(3,5), 16);
+  let B = parseInt(color.substring(5,7), 16);
+
+  R = parseInt(R * (100 + percent) / 100);
+  G = parseInt(G * (100 + percent) / 100);
+  B = parseInt(B * (100 + percent) / 100);
+
+  R = (R<255)?R:255;  
+  G = (G<255)?G:255;  
+  B = (B<255)?B:255;  
+
+  R = Math.round(R);
+  G = Math.round(G);
+  B = Math.round(B);
+
+  const RR = ((R.toString(16).length==1)?"0"+R.toString(16):R.toString(16));
+  const GG = ((G.toString(16).length==1)?"0"+G.toString(16):G.toString(16));
+  const BB = ((B.toString(16).length==1)?"0"+B.toString(16):B.toString(16));
+
+  return "#"+RR+GG+BB;
+}
+
+    
+
+
   
   // Update the visible categories in the category panel
   function updateCategoryDisplay(centerIndex) {
@@ -486,6 +530,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+  // PART 3: Wheel Spinning and Animation
   // PART 3: Wheel Spinning and Animation
 
 // Animate the categories during spin
@@ -570,16 +615,71 @@ function spinWheel() {
   setTimeout(() => {
     const selectedCategory = CATEGORIES[randomSegment];
     
-    // Update result - update link and its styling
-    if (CATEGORY_LINK) {
-      CATEGORY_LINK.textContent = selectedCategory.name;
-      CATEGORY_LINK.href = selectedCategory.path;
-      CATEGORY_LINK.style.backgroundColor = selectedCategory.color;
+    // Calculate contrasting text color for the background
+    const r = parseInt(selectedCategory.color.slice(1, 3), 16);
+    const g = parseInt(selectedCategory.color.slice(3, 5), 16);
+    const b = parseInt(selectedCategory.color.slice(5, 7), 16);
+    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+    const textColor = brightness < 128 ? 'white' : 'black';
+    
+    // RESULT BOX - FILL WITH EXACT CATEGORY COLOR
+    if (RESULT_ELEMENT) {
+      // Reset any existing styles completely
+      RESULT_ELEMENT.removeAttribute('style');
+      
+      // Apply the EXACT SAME color as the category
+      RESULT_ELEMENT.style.cssText = `
+        background-color: ${selectedCategory.color} !important;
+        color: ${textColor} !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        max-width: 400px !important;
+        margin: 1.5rem auto 0 !important;
+        padding: 1.5rem 1rem !important;
+        border-radius: 0.5rem !important;
+        text-align: center !important;
+        transition: opacity 0.3s ease !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+        border: none !important;
+      `;
     }
     
-    // Show result element
-    if (RESULT_ELEMENT) {
-      RESULT_ELEMENT.style.opacity = '1';
+    // CATEGORY LINK - MAKE CONTRASTING TO THE BACKGROUND
+    if (CATEGORY_LINK) {
+      // Reset existing styles
+      CATEGORY_LINK.removeAttribute('style');
+      
+      CATEGORY_LINK.textContent = `Explore ${selectedCategory.name}`;
+      CATEGORY_LINK.href = selectedCategory.path;
+      
+      // Make button stand out against the background
+      CATEGORY_LINK.style.cssText = `
+        background-color: ${textColor === 'white' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.2)'} !important;
+        color: ${textColor} !important;
+        border: 2px solid ${textColor} !important;
+        font-weight: 600 !important;
+        margin-top: 0.75rem !important;
+        display: inline-block !important;
+        padding: 0.5rem 1.25rem !important;
+        border-radius: 0.375rem !important;
+        transition: all 0.2s ease !important;
+        text-decoration: none !important;
+      `;
+      
+      // Add hover effects
+      CATEGORY_LINK.onmouseover = () => {
+        CATEGORY_LINK.style.transform = 'translateY(-2px)';
+        CATEGORY_LINK.style.boxShadow = `0 4px 8px rgba(0, 0, 0, 0.2)`;
+        CATEGORY_LINK.style.backgroundColor = textColor === 'white' ? 
+          'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.3)';
+      };
+      
+      CATEGORY_LINK.onmouseout = () => {
+        CATEGORY_LINK.style.transform = 'translateY(0)';
+        CATEGORY_LINK.style.boxShadow = 'none';
+        CATEGORY_LINK.style.backgroundColor = textColor === 'white' ? 
+          'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.2)';
+      };
     }
     
     // Update state
@@ -590,8 +690,9 @@ function spinWheel() {
     requestAnimationFrame(() => {
       requestAnimationFrame(addSegmentHoverAreas);
     });
+
     
-    // DIRECT CONFETTI IMPLEMENTATION
+    // PART 4 DIRECT CONFETTI IMPLEMENTATION
     // This ensures we don't rely on external file loading which might be failing
     const confetti = (function() {
       console.log("Initializing direct confetti");
@@ -792,7 +893,7 @@ function spinWheel() {
 
 
   
-  // PART 4: Finalization and Optimization
+  // PART 5: Finalization and Optimization
 
   // Helper to check if device supports touch
   const supportsTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;

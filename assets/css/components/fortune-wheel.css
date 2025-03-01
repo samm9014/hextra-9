@@ -1,6 +1,6 @@
 /* assets/css/components/fortune-wheel.css */
 
-/* Container styles */
+/* ===== Base Container Styles ===== */
 .fortune-dial-container {
   width: 100%;
   max-width: 100%;
@@ -11,7 +11,7 @@
   justify-content: center;
 }
 
-/* Wheel wrapper positioning */
+/* ===== Fortune Wheel Styles ===== */
 .fortune-wheel-wrapper {
   position: relative;
   width: 100%;
@@ -20,7 +20,16 @@
   aspect-ratio: 1/1;
 }
 
-/* Pointer styling */
+.fortune-wheel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* Pointer above the wheel */
 .wheel-pointer {
   position: absolute;
   top: -10px;
@@ -31,35 +40,19 @@
   pointer-events: none;
 }
 
-/* Main wheel container */
-.fortune-wheel {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-  transform-origin: center center;
-  will-change: transform;
-}
-
-/* IMPORTANT: Remove the filter in dark mode that was changing wheel colors */
-.dark .fortune-wheel img {
-  filter: brightness(0.95);
-}
-
-/* Wheel icons */
+/* Icons on wheel */
 .wheel-icon {
-  width: 24px; 
-  height: 24px;
+  width: 32px; /* Increased size */
+  height: 32px;
   position: absolute;
   z-index: 5;
   transform-origin: center center;
   will-change: transform;
 }
 
-/* Icon container */
 .wheel-icon > div {
-  width: 32px;
-  height: 32px;
+  width: 40px; /* Increased size */
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,57 +61,45 @@
 }
 
 .wheel-icon svg {
-  width: 20px;
-  height: 20px;
+  width: 24px; /* Increased size */
+  height: 24px;
 }
 
-/* Category box - Common styles */
+/* ===== Category Box Styles ===== */
 .category-box {
   position: relative;
   height: 150px;
-  background-color: white;
+  background-color: transparent; /* Transparent background */
   border-radius: 0.5rem;
   border: 2px solid #e5e7eb;
   overflow: hidden;
-  margin: 0 auto 1rem;
+  margin: 1.5rem auto;
   width: 100%;
   max-width: 400px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
-/* Dark mode for category box */
-.dark .category-box {
-  background-color: #1f2937;
-  border-color: #374151;
-}
-
-/* Selection highlight - Common styles */
+/* Selection highlight - shows current choice */
 .selection-highlight {
   position: absolute;
   left: 0;
   right: 0;
   height: 50px;
   top: 50px;
-  background-color: #f3f4f6;
-  border-top: 1px solid #e5e7eb;
-  border-bottom: 1px solid #e5e7eb;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   z-index: 0;
 }
 
-/* Dark mode for highlight */
-.dark .selection-highlight {
-  background-color: #374151;
-  border-color: #4b5563;
-}
-
-/* Category slots - Common styles */
+/* Category slots container */
 .category-slots {
   position: relative;
   z-index: 1;
   height: 100%;
 }
 
-/* Category slot - Common styles */
+/* Individual slot styling */
 .category-slot {
   position: absolute;
   left: 0;
@@ -126,17 +107,11 @@
   height: 50px;
   display: flex;
   align-items: center;
-  padding: 0 16px;
+  padding: 0;
   overflow: hidden;
-  color: #374151;
 }
 
-/* Dark mode for slots */
-.dark .category-slot {
-  color: #e5e7eb;
-}
-
-/* Individual slot positions */
+/* Position each slot */
 #prev-category {
   top: 0;
 }
@@ -150,21 +125,23 @@
   top: 100px;
 }
 
-/* Category items */
+/* Category item styling - category entry with color bg */
 .category-item {
   display: flex;
   align-items: center;
   width: 100%;
+  height: 100%;
+  padding: 0 16px;
 }
 
-/* Category name - text portion */
+/* Category name text */
 .category-name {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* Category icon */
+/* Category icon circle */
 .category-icon {
   width: 32px;
   height: 32px;
@@ -174,33 +151,103 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent white */
+  border: 2px solid rgba(255, 255, 255, 0.4);
 }
 
-/* Result display */
+/* ===== Result Display Styles ===== */
 .fortune-result {
   width: 100%;
   max-width: 400px;
-  margin: 1.5rem auto 0;
-  padding: 1rem;
+  margin: 1rem auto;
+  padding: 1.25rem;
   border-radius: 0.5rem;
   text-align: center;
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
   opacity: 0;
-  background-color: #f3f4f6;
-  border: 1px solid #e5e7eb;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
+/* Ensure text color cascades to children except links */
+.fortune-result > *:not(a) {
+  color: inherit !important;
+}
 
-/* Dark mode for result */
-.dark .fortune-result {
-  background-color: #1f2937;
+/* Style for category link button */
+#fortune-category-link {
+  margin-top: 0.75rem;
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+#fortune-category-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== Tooltip Styles ===== */
+.wheel-tooltip {
+  position: absolute;
+  padding: 8px 12px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* ===== Dark Mode Adjustments ===== */
+.dark .category-box {
   border-color: #374151;
 }
 
-/* Mobile adjustments */
+.dark .selection-highlight {
+  background-color: rgba(55, 65, 81, 0.5);
+  border-color: rgba(75, 85, 99, 0.3);
+}
+
+/* Ensure wheel image doesn't get too dark */
+.dark .fortune-wheel img {
+  filter: brightness(0.95);
+}
+
+/* ===== Mobile Optimizations ===== */
 @media (max-width: 640px) {
-  .category-item {
+  .category-icon {
+    width: 28px;
+    height: 28px;
+    margin-right: 8px;
+  }
+  
+  .category-name {
     font-size: 0.9rem;
+  }
+  
+  .fortune-result {
+    padding: 1rem;
+  }
+  
+  #fortune-category-link {
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* ===== Reduced Motion Accommodations ===== */
+@media (prefers-reduced-motion: reduce) {
+  .fortune-wheel,
+  .wheel-icon,
+  .fortune-result,
+  #fortune-category-link {
+    transition-duration: 0.1s !important;
   }
 }
