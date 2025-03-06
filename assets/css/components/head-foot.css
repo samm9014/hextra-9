@@ -1,0 +1,324 @@
+/* assets/css/components/head-foot.css */
+:root {
+  --brown-base: #1A0F06; /* Darker, richer espresso brown */
+  --brown-highlight: #33200F; /* Highlight tone */
+  --brown-shadow: #110905; /* Shadow tone */
+  --accent-gold: rgba(255, 215, 0, 0.07); /* Subtle gold accent */
+}
+
+/* Enhanced premium blur background for both navbar and footer */
+.blur-background {
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+  height: 100%;
+  width: 100%;
+  
+  /* Rich multi-layered background */
+  background-color: var(--brown-base) !important;
+  background-image: 
+    linear-gradient(
+      0deg, 
+      var(--brown-shadow) 0%, 
+      var(--brown-base) 40%, 
+      var(--brown-highlight) 80%, 
+      var(--brown-base) 100%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      var(--accent-gold) 0%,
+      transparent 60%
+    );
+  
+  /* Enhanced blur effect */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  
+  /* Premium border and shadow effects */
+  border-bottom: 1px solid rgba(255, 215, 0, 0.07);
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(0, 0, 0, 0.2) inset;
+  
+  /* Subtle texture overlay */
+  opacity: 0.98;
+}
+
+/* Extra subtle highlight for premium effect */
+.blur-background::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 215, 0, 0.05) 50%,
+    transparent 100%
+  );
+}
+
+/* Navbar styling */
+.nav-container {
+  background-color: transparent !important;
+}
+
+/* Elegant text logo styling */
+.elegant-logo {
+  position: relative;
+  padding: 2px 0;
+  margin-right: 12px;
+}
+
+.logo-text {
+  /* System serif fonts in order of preference */
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: #FFDA6A;
+  text-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    0 0 10px rgba(255, 218, 106, 0.2);
+  background: linear-gradient(to bottom, #FFF8E1, #E6AF2E);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.logo-underline {
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 218, 106, 0.4) 20%,
+    rgba(255, 218, 106, 0.7) 50%,
+    rgba(255, 218, 106, 0.4) 80%,
+    transparent 100%
+  );
+}
+
+/* Add a subtle hover effect */
+.elegant-logo:hover .logo-text {
+  text-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    0 0 15px rgba(255, 218, 106, 0.3);
+}
+
+.elegant-logo:hover .logo-underline {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 218, 106, 0.5) 20%,
+    rgba(255, 218, 106, 0.9) 50%,
+    rgba(255, 218, 106, 0.5) 80%,
+    transparent 100%
+  );
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .logo-text {
+    font-size: 1.25rem;
+  }
+}
+
+/* Footer styling with matching premium feel */
+.hextra-footer {
+  background-color: transparent !important;
+  position: relative;
+  width: 100%;
+  margin-top: auto;
+}
+
+/* Enhanced text colors for better readability on dark brown */
+.nav-container a,
+.nav-container .hx-text-gray-600,
+.nav-container button,
+.hextra-footer,
+.hextra-footer a {
+  color: rgba(255, 255, 255, 0.92) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Layout fixes */
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+/* Fix theme toggle hover in light mode */
+.nav-container .theme-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+.nav-container .theme-toggle svg {
+  fill: rgba(255, 255, 255, 0.92) !important;
+}
+
+/* Coffee icon animations */
+@keyframes shake {
+  0% { transform: rotate(0); }
+  25% { transform: rotate(-6deg); }
+  50% { transform: rotate(6deg); }
+  75% { transform: rotate(-4deg); }
+  100% { transform: rotate(0); }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1) rotate(45deg); }
+  75% { opacity: 0.7; transform: scale(0.8) rotate(90deg); }
+}
+
+@keyframes goldSteam {
+  0% { height: 0; top: 5px; opacity: 0; width: 2px; }
+  40% { opacity: 0.8; width: 2.5px; }
+  80% { height: 18px; top: -12px; opacity: 0.3; width: 1.8px; }
+  100% { height: 22px; top: -16px; opacity: 0; width: 1px; }
+}
+
+.coffee-link {
+  position: relative;
+  /* Hint browser to optimize for animation */
+  will-change: transform;
+}
+
+/* Coffee icon hover effect */
+.coffee-link:hover svg {
+  animation: shake 0.7s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  transform-origin: bottom center;
+  fill: #FFDD00;
+  filter: drop-shadow(0 0 3px rgba(255, 221, 0, 0.4));
+  transition: fill 0.3s, filter 0.3s;
+}
+
+/* Steam effects */
+.coffee-link::before,
+.coffee-link::after {
+  content: "";
+  position: absolute;
+  background: linear-gradient(to top, #FFDD00, rgba(255, 218, 106, 0.1));
+  border-radius: 10px;
+  top: 0;
+  opacity: 0;
+  box-shadow: 0 0 4px rgba(255, 218, 106, 0.5);
+  transition: opacity 0.2s;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.coffee-link::before {
+  left: 9px;
+  width: 3px;
+}
+
+.coffee-link::after {
+  left: 15px;
+  width: 3px;
+}
+
+.coffee-link:hover::before {
+  animation: goldSteam 1.8s ease-out infinite;
+  animation-delay: 0.1s;
+  opacity: 1;
+}
+
+.coffee-link:hover::after {
+  animation: goldSteam 1.8s ease-out infinite;
+  animation-delay: 0.6s;
+  opacity: 1;
+}
+
+/* Sparkle effects */
+.coffee-link .sparkle {
+  position: absolute;
+  background: radial-gradient(circle, #FFF 10%, rgba(255, 218, 106, 0.8) 30%, transparent 70%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  opacity: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.coffee-link .sparkle-1 {
+  top: 8px;
+  right: 6px;
+}
+
+.coffee-link .sparkle-2 {
+  top: 18px;
+  left: 7px;
+}
+
+.coffee-link:hover .sparkle-1 {
+  animation: sparkle 1.2s ease-in-out infinite;
+  animation-delay: 0.2s;
+}
+
+.coffee-link:hover .sparkle-2 {
+  animation: sparkle 1.2s ease-in-out infinite;
+  animation-delay: 0.7s;
+}
+
+/* Accessibility - respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .coffee-link:hover svg,
+  .coffee-link:hover::before,
+  .coffee-link:hover::after,
+  .coffee-link:hover .sparkle-1,
+  .coffee-link:hover .sparkle-2 {
+    animation: none;
+    transition: fill 0.5s;
+  }
+}
+
+
+/* Social Media Icons with Color Transition */
+.social-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Default state - screened colors to match footer */
+.social-icon svg {
+  width: 24px;
+  height: 24px;
+  filter: grayscale(100%) brightness(1.8) opacity(0.7);
+  transition: all 0.3s ease;
+}
+
+/* Hover state - reveal true colors */
+.social-icon:hover {
+  background-color: rgba(255, 215, 0, 0.1);
+}
+
+.social-icon:hover svg {
+  filter: none;
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.5));
+}

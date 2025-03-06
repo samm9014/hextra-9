@@ -29,16 +29,33 @@
   will-change: transform;
 }
 
-/* Pointer above the wheel */
+/* ===== Fortune Wheel Styles ===== */
 .wheel-pointer {
   position: absolute;
-  top: -10px;
+  top: -20px !important;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10;
-  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.2));
+  z-index: 10; /* Reduced from 30 to ensure it stays below navbar */
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
   pointer-events: none;
+  animation: pointerGlow 2s infinite alternate;
 }
+
+/* Target the main path in the SVG */
+.wheel-pointer svg path:first-of-type {
+  fill: url(#pointerGradient);
+}
+
+/* Add a glowing animation */
+@keyframes pointerGlow {
+  from {
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+  }
+  to {
+    filter: drop-shadow(0 4px 10px rgba(255, 215, 0, 0.7));
+  }
+}
+
 
 /* Icons on wheel - basic structure */
 .wheel-icon {

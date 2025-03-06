@@ -1,41 +1,8 @@
 {{/* layouts/partials/footer.html */}}
-<style>
-  /* Brand Colors */
-  :root {
-    --brand-facebook: #1877F2;
-    --brand-twitter: #1DA1F2;
-    --brand-instagram: #E4405F;
-    --brand-youtube: #FF0000;
-    --brand-tiktok: #000000;
-    --brand-github: #181717;
-    --brand-snapchat: #FFFC00;
-  }
 
-  .social-icon:hover svg {
-    fill: var(--brand-facebook);
-  }
-  .social-icon[aria-label*="Twitter"]:hover svg {
-    fill: var(--brand-twitter);
-  }
-  .social-icon[aria-label*="Instagram"]:hover svg {
-    fill: var(--brand-instagram);
-  }
-  .social-icon[aria-label*="YouTube"]:hover svg {
-    fill: var(--brand-youtube);
-  }
-  .social-icon[aria-label*="TikTok"]:hover svg {
-    fill: var(--brand-tiktok);
-  }
-  .social-icon[aria-label*="GitHub"]:hover svg {
-    fill: var(--brand-github);
-  }
-  .social-icon[aria-label*="Snapchat"]:hover svg {
-    fill: var(--brand-snapchat);
-  }
-</style>
-
-<footer class="hextra-footer hx-bg-gray-100 hx-pb-[env(safe-area-inset-bottom)] dark:hx-bg-neutral-900 print:hx-bg-transparent">
-  <div class="hx-max-w-screen-xl hx-mx-auto hx-flex hx-flex-col hx-items-center hx-py-12 hx-px-[max(env(safe-area-inset-left),1.5rem)] hx-text-gray-600 dark:hx-text-gray-400">
+<footer class="hextra-footer hx-pb-[env(safe-area-inset-bottom)] print:hx-bg-transparent">
+  <div class="blur-background"></div>
+  <div class="hx-max-w-screen-xl hx-mx-auto hx-flex hx-flex-col hx-items-center hx-py-12 hx-px-[max(env(safe-area-inset-left),1.5rem)]">
     
     {{/* Social Media Icons Section */}}
     {{- with .Site.Params.footer.socialMedia -}}
@@ -43,13 +10,12 @@
         {{- range $platform, $data := . -}}
           {{- if $data.enable -}}
             <a href="{{ $data.url }}" 
-               target="_blank" 
-               rel="noopener noreferrer"
-               class="social-icon hx-p-3 hx-inline-flex hx-items-center hx-justify-center hx-text-gray-600 dark:hx-text-gray-400 hx-transition-colors"
-               style="min-width: 48px; min-height: 48px;"
-               aria-label="Follow us on {{- $platform | title -}}">
-              {{- partial "utils/icon.html" (dict "name" $platform "attributes" "class='hx-w-5 hx-h-5 hx-transition-colors'") -}}
-            </a>
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="social-icon"
+            aria-label="Follow us on {{- $platform | title -}}">
+          {{- partial "utils/icon.html" (dict "name" $platform "attributes" "class='social-icon-svg'") -}}
+        </a>
           {{- end -}}
         {{- end -}}
       </div>

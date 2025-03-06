@@ -55,11 +55,11 @@ menu:
       weight: 4
       params:
         type: search
-    - name: GitHub
+    - name: Coffee
       weight: 5
       url: ""
       params:
-        icon: github
+        icon: Coffee
 
 params:
   description: "Discovering hidden opportunities in the everyday" # Important for SEO
@@ -82,9 +82,6 @@ params:
     displayCopyright: true
     copyright: "© 2025 Eight Fortunes."  # Optional: custom copyright text
     socialMedia:
-      github:
-        enable: true
-        url: "https://github.com/yourusername"
       twitter:
         enable: true
         url: "https://twitter.com/yourusername"
@@ -103,6 +100,9 @@ params:
       snapchat:
         enable: true
         url: "https://www.snapchat.com/add/yourusername"
+      bluesky:
+        enable: true
+        url: "https://www.bluesky.com/yourusername"
 
   editURL:
     enable: true

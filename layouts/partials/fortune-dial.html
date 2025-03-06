@@ -1,12 +1,24 @@
 {{/* layouts/partials/fortune-dial.html */}}
 <div class="fortune-dial-container relative flex flex-col items-center justify-center my-8">
   <div class="fortune-wheel-wrapper relative w-full max-w-md mx-auto">
-    <!-- Pointer indicator -->
-    <div class="wheel-pointer absolute z-10" style="top: 0; left: 50%; transform: translateX(-50%);">
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20 0L25 20H15L20 0Z" fill="#3B82F6" />
-      </svg>
-    </div>
+    
+<!-- Pointer indicator with gradient definition -->
+<div class="wheel-pointer absolute z-10">
+  <svg width="0" height="0">
+    <defs>
+      <linearGradient id="pointerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FF6B6B" />
+        <stop offset="25%" stop-color="#FFE66D" />
+        <stop offset="50%" stop-color="#4ECDC4" />
+        <stop offset="75%" stop-color="#7F5AF0" />
+        <stop offset="100%" stop-color="#FF6B6B" />
+      </linearGradient>
+    </defs>
+  </svg>
+  {{ $pointerSvg := resources.Get "images/wheel-pointer.svg" }}
+  {{ $pointerSvg.Content | safeHTML }}
+</div>
+      
     
     <!-- The wheel -->
     <div id="fortune-wheel" class="fortune-wheel transition-transform duration-[3000ms] ease-out">

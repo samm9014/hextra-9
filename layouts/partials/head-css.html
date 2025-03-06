@@ -24,3 +24,12 @@
 {{- else }}
   <link href="{{ $custom.RelPermalink }}" rel="stylesheet" />
 {{- end }}
+
+<!-- Header & Footer CSS -->
+{{- $headFoot := resources.Get "css/components/head-foot.css" }}
+{{- if hugo.IsProduction -}}
+  {{- $headFoot = $headFoot | minify | fingerprint }}
+  <link href="{{ $headFoot.RelPermalink }}" rel="stylesheet" integrity="{{ $headFoot.Data.Integrity }}" />
+{{- else }}
+  <link href="{{ $headFoot.RelPermalink }}" rel="stylesheet" />
+{{- end }}
