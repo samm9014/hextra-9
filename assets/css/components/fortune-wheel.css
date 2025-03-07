@@ -218,3 +218,19 @@
     transition-duration: 0.1s !important;
   }
 }
+
+
+/* Add this to fortune-wheel.css */
+.wheel-segment-labels {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transform: rotate(0deg); /* Ensures labels rotate with the wheel */
+}
+
+.wheel-segment-label {
+  transform-origin: left center;
+}

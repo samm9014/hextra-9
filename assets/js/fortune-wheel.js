@@ -64,11 +64,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     return "#"+RR+GG+BB;
   }
+
 // PART 3: Initialization Functions
   // Primary initialization
   function init() {
-    // Enhance icon sizes
-    enlargeIcons();
+    // Add segment labels with optimized contrast
+    addSegmentLabels();
     
     // Create hover areas
     addSegmentHoverAreas();
@@ -97,28 +98,88 @@ document.addEventListener('DOMContentLoaded', function() {
     optimizeForDevice();
   }
   
-  // Increase icon sizes for better visibility
-  function enlargeIcons() {
-    WHEEL_ICONS.forEach(icon => {
-      // Make containing div bigger
-      icon.style.width = '32px';
-      icon.style.height = '32px';
+  // Determine optimal text color based on background color
+  function getContrastColor(hexColor) {
+    // Remove hash if present
+    hexColor = hexColor.replace('#', '');
+    
+    // Parse RGB values
+    const r = parseInt(hexColor.substr(0, 2), 16);
+    const g = parseInt(hexColor.substr(2, 2), 16);
+    const b = parseInt(hexColor.substr(4, 2), 16);
+    
+    // Calculate luminance - gives more weight to colors humans perceive as brighter
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    
+    // Return black for bright backgrounds, white for dark backgrounds
+    return luminance > 0.6 ? '#000000' : '#FFFFFF';
+  }
+  
+  // Add text labels to wheel segments with optimized color contrast
+  function addSegmentLabels() {
+    if (!WHEEL) return;
+    
+    // Remove any existing labels
+    const existingLabels = WHEEL.querySelectorAll('.wheel-segment-label');
+    existingLabels.forEach(el => el.remove());
+    
+    // Create container for all labels
+    const labelsWrapper = document.createElement('div');
+    labelsWrapper.className = 'wheel-segment-labels';
+    labelsWrapper.style.position = 'absolute';
+    labelsWrapper.style.top = '0';
+    labelsWrapper.style.left = '0';
+    labelsWrapper.style.width = '100%';
+    labelsWrapper.style.height = '100%';
+    
+    // Wheel dimensions
+    const centerRadius = 50;  // Inner circle radius
+    const startOffset = 15;   // Distance from center circle to start text
+    
+    // Add a label for each category
+    for (let i = 0; i < CATEGORIES.length; i++) {
+      const category = CATEGORIES[i];
       
-      // Make the colored circle bigger
-      const innerDiv = icon.querySelector('div');
-      if (innerDiv) {
-        innerDiv.style.width = '40px';
-        innerDiv.style.height = '40px';
-        innerDiv.style.padding = '8px';
-        
-        // Make SVG bigger
-        const svg = innerDiv.querySelector('svg');
-        if (svg) {
-          svg.style.width = '24px';
-          svg.style.height = '24px';
-        }
-      }
-    });
+      // Calculate angle (centered in segment)
+      const segmentAngle = 360 / CATEGORIES.length;
+      const midAngle = (i * segmentAngle) + (segmentAngle / 2) - 90; // -90 to start at top
+      
+      // Determine optimal text color for this segment's background
+      const textColor = getContrastColor(category.color);
+      const shadowColor = textColor === '#FFFFFF' ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)';
+      
+      // Create text container with fixed starting point
+      const textContainer = document.createElement('div');
+      textContainer.className = 'wheel-segment-text-container';
+      textContainer.style.position = 'absolute';
+      textContainer.style.top = '50%';
+      textContainer.style.left = '50%';
+      textContainer.style.transformOrigin = '0 0';
+      textContainer.style.transform = `rotate(${midAngle}deg)`;
+      textContainer.style.pointerEvents = 'none';
+      
+      // Create label with dynamic width
+      const label = document.createElement('div');
+      label.className = 'wheel-segment-label';
+      label.textContent = category.name;
+      label.style.position = 'absolute';
+      label.style.left = `${centerRadius + startOffset}px`; // Start just outside center circle
+      label.style.transform = 'translateY(-50%)'; // Center vertically
+      label.style.width = 'auto';
+      label.style.maxWidth = '110px'; // Limit width to prevent extending too far
+      label.style.color = textColor;
+      label.style.fontWeight = 'bold';
+      label.style.fontSize = '13px'; // Slightly smaller for better fit
+      label.style.textShadow = `0 1px 2px ${shadowColor}`;
+      label.style.whiteSpace = 'nowrap';
+      
+      // Add to container
+      textContainer.appendChild(label);
+      labelsWrapper.appendChild(textContainer);
+    }
+    
+    // Add labels to the wheel
+    WHEEL.appendChild(labelsWrapper);
   }
   
   // Check for device preferences
@@ -137,6 +198,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   }
+  
+
 // PART 4: Responsive Handling
   // Make wheel responsive to screen size changes
   function makeResponsive() {
@@ -452,17 +515,31 @@ document.addEventListener('DOMContentLoaded', function() {
     // Make sure center area is on top
     wheelWrapper.appendChild(centerArea);
   }
+
 // PART 7: Category UI Elements
-  // Create a visual category item for display
-  function createCategoryItem(category) {
+  // Create a visual category item for display without icons
+  function createCategoryItem(category, isWinner = false) {
     const item = document.createElement('div');
     item.className = 'category-item';
     item.style.display = 'flex';
     item.style.alignItems = 'center';
     item.style.width = '100%';
     item.style.backgroundColor = category.color;
-    item.style.padding = '4px 8px';
+    item.style.padding = '4px 12px';
     item.style.borderRadius = '4px';
+    item.style.transition = 'all 0.3s ease';
+    
+    // Add winner styling if applicable
+    if (isWinner) {
+      // Add the pop animation
+      item.style.animation = 'winnerPop 1.5s infinite, winnerGlow 2s infinite alternate';
+      // Add a slightly brighter border
+      item.style.border = `2px solid ${shadeColor(category.color, 30)}`;
+      // Make it stand out more
+      item.style.zIndex = '5';
+      // Increase font weight
+      item.style.fontWeight = '700';
+    }
     
     // Calculate contrasting text color
     const r = parseInt(category.color.slice(1, 3), 16);
@@ -471,34 +548,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const brightness = (r * 299 + g * 587 + b * 114) / 1000;
     const textColor = brightness < 128 ? 'white' : 'black';
     
-    // Icon container
-    const iconBox = document.createElement('div');
-    iconBox.className = 'category-icon';
-    iconBox.style.width = '32px';
-    iconBox.style.height = '32px';
-    iconBox.style.borderRadius = '50%';
-    iconBox.style.marginRight = '12px';
-    iconBox.style.flexShrink = '0';
-    iconBox.style.display = 'flex';
-    iconBox.style.alignItems = 'center';
-    iconBox.style.justifyContent = 'center';
-    
-    // Make icon background slightly different from item background for contrast
-    const lighterColor = shadeColor(category.color, 15);
-    iconBox.style.backgroundColor = lighterColor;
-    
-    // Get the icon from the wheel
-    const wheelIcon = document.querySelector(`.wheel-icon[data-category="${category.slug}"] div`);
-    if (wheelIcon) {
-      const iconWrapper = document.createElement('div');
-      iconWrapper.style.width = '20px';
-      iconWrapper.style.height = '20px';
-      iconWrapper.style.color = textColor;
-      iconWrapper.innerHTML = wheelIcon.innerHTML;
-      iconBox.appendChild(iconWrapper);
-    }
-    
-    // Text label
+    // Text label - centered and full-width
     const label = document.createElement('span');
     label.className = 'category-name';
     label.textContent = category.name;
@@ -506,10 +556,30 @@ document.addEventListener('DOMContentLoaded', function() {
     label.style.overflow = 'hidden';
     label.style.textOverflow = 'ellipsis';
     label.style.color = textColor;
-    label.style.fontWeight = '600';
+    label.style.fontWeight = isWinner ? '700' : '600';
+    label.style.textAlign = 'center';
+    label.style.width = '100%';
+    
+    // Add a star icon for the winner
+    if (isWinner) {
+      // Add a simple star character
+      const star = document.createElement('span');
+      star.textContent = '★';
+      star.style.marginRight = '8px';
+      star.style.fontSize = '16px';
+      star.style.color = textColor;
+      item.insertBefore(star, item.firstChild);
+      
+      // Add a star at the end too
+      const endStar = document.createElement('span');
+      endStar.textContent = '★';
+      endStar.style.marginLeft = '8px';
+      endStar.style.fontSize = '16px';
+      endStar.style.color = textColor;
+      item.appendChild(endStar);
+    }
     
     // Assemble item
-    item.appendChild(iconBox);
     item.appendChild(label);
     
     return item;
@@ -526,14 +596,39 @@ document.addEventListener('DOMContentLoaded', function() {
     CURRENT_SLOT.innerHTML = '';
     NEXT_SLOT.innerHTML = '';
     
-    // Add new category items
-    PREV_SLOT.appendChild(createCategoryItem(CATEGORIES[prevIndex]));
-    CURRENT_SLOT.appendChild(createCategoryItem(CATEGORIES[centerIndex]));
-    NEXT_SLOT.appendChild(createCategoryItem(CATEGORIES[nextIndex]));
+    // Add new category items - mark the current one as winner
+    PREV_SLOT.appendChild(createCategoryItem(CATEGORIES[prevIndex], false));
+    CURRENT_SLOT.appendChild(createCategoryItem(CATEGORIES[centerIndex], true)); // This is the winner
+    NEXT_SLOT.appendChild(createCategoryItem(CATEGORIES[nextIndex], false));
     
     // Update current index
     currentIndex = centerIndex;
-  }
+    
+    // Add winner animations if they don't exist
+    if (!document.getElementById('winner-animations')) {
+      const styleSheet = document.createElement('style');
+      styleSheet.id = 'winner-animations';
+      styleSheet.textContent = `
+        @keyframes winnerPop {
+          0% { transform: scale(1); }
+          50% { transform: scale(1.08); }
+          100% { transform: scale(1); }
+        }
+        
+        @keyframes winnerGlow {
+          0% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+          100% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.8); }
+        }
+        
+        /* Make sure selection highlight matches the animation */
+        .selection-highlight {
+          transition: transform 0.3s ease;
+        }
+      `;
+      document.head.appendChild(styleSheet);
+    }
+  } 
+  
 // PART 8: Spin Animation
   // Animate the categories during spin
   function animateCategories(duration, finalIndex) {
@@ -559,63 +654,62 @@ document.addEventListener('DOMContentLoaded', function() {
     }, intervalTime);
   }
 
-  // Spin the wheel (first half - animation setup)
-  function spinWheel() {
-    if (isSpinning) return;
-    isSpinning = true;
-    
-    // Hide tooltip during spin
-    hideTooltip();
-    
-    // Remove hover areas during spin
-    const wheelWrapper = WHEEL.closest('.fortune-wheel-wrapper');
-    const hoverAreas = wheelWrapper.querySelectorAll('.wheel-hover-overlay, .wheel-center-area');
-    hoverAreas.forEach(area => area.remove());
-    
-    // Hide any previous result
-    if (RESULT_ELEMENT) {
-      RESULT_ELEMENT.style.opacity = '0';
-    }
-    
-    // Calculate spin parameters
-    const minDuration = 3000;
-    const extraDuration = 2000;
-    const duration = minDuration + (Math.random() * extraDuration);
-    
-    const minRotations = 3;
-    const maxRotations = 5;
-    const rotations = minRotations + (Math.random() * (maxRotations - minRotations));
-    
-    const targetRotation = currentRotation + (rotations * 360);
-    
-    // Select random segment for landing
-    const randomSegment = Math.floor(Math.random() * SEGMENT_COUNT);
-    
-    // Calculate final rotation to land on selected segment
-    const segmentOffset = SEGMENT_ANGLE * randomSegment;
-    const finalRotation = Math.ceil(targetRotation / 360) * 360 - segmentOffset - (SEGMENT_ANGLE / 2);
-    
-    // Apply wheel animation
-    WHEEL.style.transition = `transform ${duration}ms cubic-bezier(0.1, 0.7, 0.1, 1)`;
-    WHEEL.style.transform = `rotate(${finalRotation}deg)`;
-    
-    // Keep icons upright
-    WHEEL_ICONS.forEach(icon => {
-      icon.style.transition = `transform ${duration}ms cubic-bezier(0.1, 0.7, 0.1, 1)`;
-      icon.style.transform = `translate(-50%, -50%) rotate(${-finalRotation}deg)`;
-    });
-    
-    // Add haptic feedback if available
-    if (navigator.vibrate) {
-      navigator.vibrate(50);
-    }
-    
-    // Animate the category list
-    animateCategories(duration, randomSegment);
-    
-    // Schedule results handling
-    setTimeout(() => handleSpinResult(duration, randomSegment, finalRotation), duration + 100);
+
+
+// Spin the wheel (first half - animation setup)
+function spinWheel() {
+  if (isSpinning) return;
+  isSpinning = true;
+  
+  // Hide tooltip during spin
+  hideTooltip();
+  
+  // Remove hover areas during spin
+  const wheelWrapper = WHEEL.closest('.fortune-wheel-wrapper');
+  const hoverAreas = wheelWrapper.querySelectorAll('.wheel-hover-overlay, .wheel-center-area');
+  hoverAreas.forEach(area => area.remove());
+  
+  // Hide any previous result
+  if (RESULT_ELEMENT) {
+    RESULT_ELEMENT.style.opacity = '0';
   }
+  
+  // Calculate spin parameters
+  const minDuration = 3000;
+  const extraDuration = 2000;
+  const duration = minDuration + (Math.random() * extraDuration);
+  
+  const minRotations = 3;
+  const maxRotations = 5;
+  const rotations = minRotations + (Math.random() * (maxRotations - minRotations));
+  
+  const targetRotation = currentRotation + (rotations * 360);
+  
+  // Select random segment for landing
+  const randomSegment = Math.floor(Math.random() * SEGMENT_COUNT);
+  
+  // Calculate final rotation to land on selected segment
+  const segmentOffset = SEGMENT_ANGLE * randomSegment;
+  const finalRotation = Math.ceil(targetRotation / 360) * 360 - segmentOffset - (SEGMENT_ANGLE / 2);
+  
+  // Apply wheel animation
+  WHEEL.style.transition = `transform ${duration}ms cubic-bezier(0.1, 0.7, 0.1, 1)`;
+  WHEEL.style.transform = `rotate(${finalRotation}deg)`;
+  
+  // No need to transform the labels as they should rotate WITH the wheel
+  
+  // Add haptic feedback if available
+  if (navigator.vibrate) {
+    navigator.vibrate(50);
+  }
+  
+  // Animate the category list
+  animateCategories(duration, randomSegment);
+  
+  // Schedule results handling
+  setTimeout(() => handleSpinResult(duration, randomSegment, finalRotation), duration + 100);
+}
+
 // PART 9: Results Handling
   // Handle spin results display (second half of spin process)
   function handleSpinResult(duration, randomSegment, finalRotation) {
@@ -628,109 +722,55 @@ document.addEventListener('DOMContentLoaded', function() {
     const brightness = (r * 299 + g * 587 + b * 114) / 1000;
     const textColor = brightness < 128 ? 'white' : 'black';
     
-    // Display the result box
-    if (RESULT_ELEMENT) {
-      // Reset any existing styles
-      RESULT_ELEMENT.removeAttribute('style');
-      
-      // Clear any inner elements that might be creating squares
-      RESULT_ELEMENT.innerHTML = '';
-      
-      // Create styled heading for better appearance
-      const heading = document.createElement('h3');
-      heading.textContent = selectedCategory.name;
-      heading.style.cssText = `
-        font-size: 1.85rem !important;
-        font-weight: 600 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        color: inherit !important;
-      `;
-      
-      // Add the heading to the result element
-      RESULT_ELEMENT.appendChild(heading);
-      
-      // Then apply box styling to the main container
-      RESULT_ELEMENT.style.cssText = `
-        background-color: ${selectedCategory.color} !important;
-        color: ${textColor} !important;
-        opacity: 1 !important;
-        width: 100% !important;
-        max-width: 400px !important;
-        margin: 1.5rem auto 0 !important;
-        padding: 1.5rem 1rem !important;
-        border-radius: 0.5rem !important;
-        text-align: center !important;
-        transition: opacity 0.3s ease !important;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
-        border: none !important;
-      `;
-    }
+    // Get the result element
+    const resultElement = document.getElementById('fortune-result');
+    const resultContent = document.getElementById('result-content');
     
-    // Style the category link
-    if (CATEGORY_LINK) {
-      // Reset existing styles
-      CATEGORY_LINK.removeAttribute('style');
-      
-      CATEGORY_LINK.textContent = `${selectedCategory.name}`;
-      CATEGORY_LINK.href = selectedCategory.path;
-      
-      // Make button stand out against the background
-      CATEGORY_LINK.style.cssText = `
-        background-color: ${textColor === 'white' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.2)'} !important;
-        color: ${textColor} !important;
-        border: 2px solid ${textColor} !important;
-        font-weight: 600 !important;
-        margin-top: 0.75rem !important;
-        display: inline-block !important;
-        padding: 0.5rem 1.25rem !important;
-        border-radius: 0.375rem !important;
-        transition: all 0.2s ease !important;
-        text-decoration: none !important;
+    if (resultElement && resultContent) {
+      // Update content
+      resultContent.innerHTML = `
+        <a href="${selectedCategory.path}" 
+           style="display: block; width: 100%; padding: 1rem; 
+                  background-color: ${selectedCategory.color};
+                  color: ${textColor}; border: none; border-radius: 0.5rem; 
+                  font-weight: 700; font-size: 1.35rem; text-decoration: none; 
+                  cursor: pointer; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                  text-align: center;">
+          ${selectedCategory.name}
+        </a>
       `;
       
-      // Add hover effects
-      CATEGORY_LINK.onmouseover = () => {
-        CATEGORY_LINK.style.transform = 'translateY(-2px)';
-        CATEGORY_LINK.style.boxShadow = `0 4px 8px rgba(0, 0, 0, 0.2)`;
-        CATEGORY_LINK.style.backgroundColor = textColor === 'white' ? 
-          'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.3)';
-      };
+      // Preserve original classes but reset inline styles
+      const originalClasses = resultElement.className;
+      resultElement.removeAttribute('style');
+      resultElement.className = originalClasses;
       
-      CATEGORY_LINK.onmouseout = () => {
-        CATEGORY_LINK.style.transform = 'translateY(0)';
-        CATEGORY_LINK.style.boxShadow = 'none';
-        CATEGORY_LINK.style.backgroundColor = textColor === 'white' ? 
-          'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.2)';
-      };
+      // Set stable positioning with CSS variables for easy adjustment
+      document.documentElement.style.setProperty('--result-margin-top', '12rem');
+      
+      // Apply styles that work with the CSS structure
+      resultElement.style.cssText = `
+        display: block;
+        width: 100%;
+        max-width: 400px;
+        margin-top: var(--result-margin-top, 12rem);
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0;
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+        opacity: 1;
+        position: relative;
+        z-index: 1;
+      `;
+      
+      // Add a tooltip data attribute to help future developers
+      resultElement.setAttribute('data-positioning-note', 'Margin-top can be adjusted via --result-margin-top CSS variable');
     }
     
     // Trigger confetti celebration
     createConfetti(selectedCategory);
-    
-    // Accessibility announcement - screen reader only
-    const announcement = document.createElement('div');
-    announcement.setAttribute('aria-live', 'assertive');
-    announcement.setAttribute('role', 'status');
-    announcement.className = 'sr-only'; // Screen reader only
-    announcement.style.position = 'absolute';
-    announcement.style.width = '1px';
-    announcement.style.height = '1px';
-    announcement.style.padding = '0';
-    announcement.style.margin = '-1px';
-    announcement.style.overflow = 'hidden';
-    announcement.style.clip = 'rect(0, 0, 0, 0)';
-    announcement.style.whiteSpace = 'nowrap';
-    announcement.style.border = '0';
-    announcement.textContent = `The wheel landed on ${selectedCategory.name}`;
-    document.body.appendChild(announcement);
-    
-    // Clean up announcement after it's read
-    setTimeout(() => {
-      if (document.body.contains(announcement)) {
-        document.body.removeChild(announcement);
-      }
-    }, 3000);
     
     // Update state
     currentRotation = finalRotation;
@@ -747,12 +787,37 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-
+  
 // PART 10: Confetti and Finalization
-  // Create confetti celebration effect
+  // Create confetti celebration effect with dual explosions
   function createConfetti(selectedCategory) {
+    // Shorter duration
+    const duration = 1500; // Reduced from 2000ms
+    
+    // Get the positions for both explosions
     const wheelRect = WHEEL.getBoundingClientRect();
     
+    // Second explosion will come from the result button after delay
+    setTimeout(() => {
+      // Find button position for second explosion
+      if (RESULT_ELEMENT) {
+        const resultRect = RESULT_ELEMENT.getBoundingClientRect();
+        launchConfetti(selectedCategory, {
+          x: (resultRect.left + resultRect.width / 2) / window.innerWidth,
+          y: (resultRect.top + resultRect.height / 2) / window.innerHeight
+        }, duration, 80); // Same duration, slightly larger spread
+      }
+    }, 300); // Delay second explosion by 300ms
+    
+    // First explosion from wheel center
+    launchConfetti(selectedCategory, {
+      x: (wheelRect.left + wheelRect.width / 2) / window.innerWidth,
+      y: (wheelRect.top + wheelRect.height / 2) / window.innerHeight
+    }, duration, 70);
+  }
+  
+  // Helper function to launch confetti from a specific origin
+  function launchConfetti(selectedCategory, origin, duration, spread) {
     const canvas = document.createElement('canvas');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -767,24 +832,16 @@ document.addEventListener('DOMContentLoaded', function() {
     let particles = [];
     
     // Configuration
-    const particleCount = 120;
-    const duration = 2000;
+    const particleCount = 80; // Fewer particles per explosion
     const gravity = 1;
-    const spread = 80;
-    
-    // Origin centered on wheel
-    const origin = {
-      x: (wheelRect.left + wheelRect.width / 2) / window.innerWidth,
-      y: (wheelRect.top + wheelRect.height / 2) / window.innerHeight
-    };
     
     // Use selected category color + variations
     const colors = [
       selectedCategory.color,
       selectedCategory.color,
-      selectedCategory.color,
       shadeColor(selectedCategory.color, 20),  // Lighter version
-      shadeColor(selectedCategory.color, -20)  // Darker version
+      shadeColor(selectedCategory.color, -20), // Darker version
+      '#FFFFFF' // Add some white particles for contrast
     ];
     
     // Create particles
@@ -795,9 +852,9 @@ document.addEventListener('DOMContentLoaded', function() {
       const random = (min, max) => Math.random() * (max - min) + min;
       
       const color = colors[Math.floor(random(0, colors.length))];
-      const size = random(8, 12); // Larger particles
+      const size = random(6, 10); // Slightly smaller particles
       const angle = random(0, Math.PI * 2);
-      const velocity = random(3, 7); // Faster velocity
+      const velocity = random(3, 6); // Slightly slower velocity
       
       particles.push({
         x: startX,
@@ -808,7 +865,7 @@ document.addEventListener('DOMContentLoaded', function() {
         vy: Math.sin(angle) * velocity * (spread / 50),
         gravity,
         alpha: 1,
-        lifetime: random(duration * 0.8, duration * 1.2),
+        lifetime: random(duration * 0.7, duration * 1.1),
         birth: Date.now()
       });
     }
@@ -861,7 +918,7 @@ document.addEventListener('DOMContentLoaded', function() {
         canvas.parentNode.removeChild(canvas);
         particles = [];
       }
-    }, duration * 1.5);
+    }, duration * 1.3); // Clean up a bit earlier
   }
   
   // Clean up resources when page unloads
@@ -881,5 +938,4 @@ document.addEventListener('DOMContentLoaded', function() {
   // Start the wheel
   init();
   setupCleanup();
-
 }); // End of DOMContentLoaded event   

@@ -1,0 +1,4 @@
+1. humburger list not activated - un clickable-
+2. wunning wheel option is not clickable-
+3. every click i get "en.search.min.0b4441…ea9490ce97ace4.js:1 Uncaught TypeError: Cannot destructure property 'inputElement' of 'e(...)' as it is undefined.
+    at HTMLDocument.<anonymous> (en.search.min.0b4441…0ce97ace4.js:1:1300)" in console
