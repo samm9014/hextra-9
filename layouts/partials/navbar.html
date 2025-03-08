@@ -76,5 +76,66 @@
     <button type="button" aria-label="Menu" class="hamburger-menu -hx-mr-2 hx-rounded hx-p-2 active:hx-bg-gray-400/20 md:hx-hidden">
       {{- partial "utils/icon.html" (dict "name" "hamburger-menu" "attributes" "height=24") -}}
     </button>
+    
+    <!-- Mobile dropdown menu -->
+    <div class="mobile-dropdown-menu hx-hidden hx-absolute hx-top-16 hx-left-0 hx-right-0 hx-z-50 hx-mx-auto hx-bg-transparent">
+      <div class="hx-mx-auto hx-w-[95%] hx-max-w-md hx-rounded-lg hx-overflow-hidden hx-shadow-xl">
+        <div class="hx-py-2 hx-bg-white dark:hx-bg-dark hx-border dark:hx-border-neutral-800 hx-rounded-lg">
+          <!-- Simple mobile search link -->
+          <div class="hx-px-4 hx-py-2 hx-border-b dark:hx-border-neutral-800">
+            <a href="/search/" class="hx-block hx-w-full hx-py-1.5 hx-px-3 hx-rounded-md hx-bg-gray-100 dark:hx-bg-neutral-800 hx-text-sm hx-text-gray-500 dark:hx-text-gray-400">
+              <div class="hx-flex hx-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" class="hx-mr-2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                Search...
+              </div>
+            </a>
+          </div>
+          
+          <!-- Mobile menu items -->
+          {{- range .Site.Menus.main -}}
+            {{- if ne .Params.type "search" -}}
+              {{- $link := .URL -}}
+              {{- $external := strings.HasPrefix $link "http" -}}
+              {{- with .PageRef -}}
+                {{- if hasPrefix . "/" -}}
+                  {{- $link = relLangURL (strings.TrimPrefix "/" .) -}}
+                {{- end -}}
+              {{- end -}}
+              
+              {{- if .Params.icon -}}
+                {{- $rel := cond (eq .Params.icon "mastodon") "noreferrer me" "noreferrer" }}
+                <a class="hx-flex hx-items-center hx-gap-2 hx-px-4 hx-py-2 hx-text-sm hx-text-gray-800 dark:hx-text-gray-200 hover:hx-bg-gray-100 dark:hover:hx-bg-gray-800" 
+                   {{ if $external }}target="_blank" rel="{{ $rel }}"{{ end }} 
+                   href="{{ $link }}">
+                  {{- partial "utils/icon.html" (dict "name" .Params.icon "attributes" "height=20") -}}
+                  <span>{{ or (T .Identifier) .Name | safeHTML }}</span>
+                </a>
+              {{- else -}}
+                <a class="hx-block hx-px-4 hx-py-2 hx-text-sm hx-text-gray-800 dark:hx-text-gray-200 hover:hx-bg-gray-100 dark:hover:hx-bg-gray-800" 
+                   {{ if $external }}target="_blank" rel="noreferrer"{{ end }}
+                   href="{{ $link }}">
+                  {{ or (T .Identifier) .Name | safeHTML }}
+                </a>
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+          
+          <!-- Mobile theme toggle -->
+          {{- if .Site.Params.theme.displayToggle | default true -}}
+          <div class="hx-px-4 hx-py-2 hx-mt-2 hx-border-t dark:hx-border-neutral-800">
+            <div class="hx-flex hx-items-center">
+              <span class="hx-text-sm hx-text-gray-800 dark:hx-text-gray-200 hx-mr-2">Theme</span>
+              {{ partial "theme-toggle.html" }}
+            </div>
+          </div>
+          {{- end -}}
+        </div>
+      </div>
+    </div>
   </nav>
 </div>
+
+<!-- Mobile menu overlay -->
+<div class="mobile-menu-overlay hx-hidden hx-fixed hx-inset-0 hx-z-40 hx-bg-black/70 dark:hx-bg-black/80"></div>

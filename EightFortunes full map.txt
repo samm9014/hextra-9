@@ -1,0 +1,215 @@
+-------------------------
+EightFortunes Folder Map: F:\Hugo\EightFortunes
+-------------------------
+Folders:
+📁 .devcontainer
+📁 .vscode
+📁 assets
+📁 content
+📁 layouts
+📁 static
+
+Files:
+📄 .gitignore
+📄 .hugo_build.lock
+📄 .prettierrc
+📄 EightFortunes full map.txt
+📄 EightFortunes_full_map_AI.json
+📄 New Text Document.txt
+📄 Screenshot 2025-02-25 022423.png
+📄 add_file_comments.py
+📄 ai map.py
+📄 errots.txt
+📄 folder map_current_only.py
+📄 folder seprated maps.py
+📄 go.mod
+📄 hugo.yaml
+📄 hugo_stats.json
+📄 netlify.toml
+📄 package-lock.json
+📄 package.json
+📄 postcss.config.js
+📄 tailwind.config.js
+
+-------------------------
+assets Directory full Map: F:\Hugo\EightFortunes\assets
+-------------------------
+├── 📄 ai map.py
+├── 📄 assets_full_map_AI.json
+├── 📁 css
+├── 📁 images
+├── 📁 js
+└── 📁 json
+├── 📄 custom.css
+├── 📄 highlight.css
+├── 📄 styles.css
+├── 📄 tailwind.css
+├── 📄 typography.css
+├── 📁 chroma
+├── 📁 compiled
+└── 📁 components
+│   ├── 📄 dark.css
+│   └── 📄 light.css
+│   └── 📄 main.css
+│   ├── 📄 badge.css
+│   ├── 📄 cards.css
+│   ├── 📄 code-copy.css
+│   ├── 📄 fortune-wheel.css
+│   ├── 📄 head-foot.css
+│   ├── 📄 jupyter.css
+│   ├── 📄 navbar.css
+│   ├── 📄 scrollbar.css
+│   ├── 📄 search.css
+│   ├── 📄 sidebar.css
+│   ├── 📄 steps.css
+│   └── 📁 hextra
+│       └── 📄 feature-grid.css
+├── 📄 3PMVk3aUmVZmEDnc-generated_image.jpg
+├── 📄 ECAgFgpO9KAoP2Sz-generated_image.jpg
+├── 📄 YUc5iiwvoTegqyIV-generated_image.jpg
+├── 📄 aa195c8beca24edb9799ac353a5f02e8.jpg
+├── 📄 card-1.png
+├── 📄 card-2.png
+├── 📄 card-3.png
+├── 📄 d70c7a7be1ae4098a01e2dbac7e549a3.png
+├── 📄 fortune-wheel.svg
+├── 📄 gS1oln47Oya0kmLS-generated_image.jpg
+├── 📄 image.webp
+├── 📄 wheel-pointer.svg
+└── 📄 zay6gd4sKMvClIRf-generated_image.jpg
+├── 📄 back-to-top.js
+├── 📄 code-copy.js
+├── 📄 filetree.js
+├── 📄 flexsearch.js
+├── 📄 fortune-wheel.js
+├── 📄 lang.js
+├── 📄 menu.js
+├── 📄 mini-confetti.js
+├── 📄 sidebar.js
+├── 📄 tabs.js
+└── 📄 theme.js
+└── 📄 search-data.json
+
+-------------------------
+content Directory full Map: F:\Hugo\EightFortunes\content
+-------------------------
+├── 📄 about.md
+├── 📁 blog
+└── 📁 docs
+├── 📁 post-1
+├── 📁 post-2
+├── 📁 post-3
+├── 📁 post-4
+└── 📁 post-5
+│   ├── 📄 feature.jpg
+│   ├── 📄 gallery-1.jpg
+│   ├── 📄 gallery-2.jpg
+│   └── 📄 index.md
+│   ├── 📄 feature.jpg
+│   └── 📄 index.md
+│   ├── 📄 feature.jpg
+│   └── 📄 index.md
+│   └── 📄 index.md
+│   └── 📄 index.md
+├── 📄 _index.md
+├── 📄 first-page.md
+└── 📁 folder
+    ├── 📄 _index.md
+    └── 📄 leaf.md
+
+-------------------------
+layouts Directory full Map: F:\Hugo\EightFortunes\layouts
+-------------------------
+├── 📄 404.html
+├── 📄 index.html
+├── 📁 _default
+├── 📁 blog
+├── 📁 docs
+├── 📁 partials
+└── 📁 shortcodes
+├── 📄 list.html
+└── 📄 single.html
+├── 📄 list.html
+└── 📄 single.html
+├── 📄 breadcrumb.html
+├── 📄 favicons.html
+├── 📄 footer.html
+├── 📄 fortune-dial.html
+├── 📄 google-analytics.html
+├── 📄 head-css.html
+├── 📄 head.html
+├── 📄 language-switch.html
+├── 📄 navbar.html
+├── 📄 opengraph.html
+├── 📄 scripts.html
+├── 📄 search.html
+├── 📄 sidebar.html
+├── 📄 theme-toggle.html
+├── 📄 toc.html
+├── 📁 components
+├── 📁 custom
+├── 📁 shortcodes
+└── 📁 utils
+│   ├── 📄 codeblock-copy-button.html
+│   ├── 📄 codeblock.html
+│   ├── 📄 comments.html
+│   ├── 📄 giscus.html
+│   ├── 📄 github-style-alert.html
+│   ├── 📄 last-updated.html
+│   └── 📄 pager.html
+│   ├── 📄 footer.html
+│   └── 📄 head-end.html
+│   ├── 📄 badge.html
+│   ├── 📄 callout.html
+│   ├── 📄 card.html
+│   └── 📄 cards.html
+│   ├── 📄 file-path.html
+│   ├── 📄 format-date.html
+│   ├── 📄 fragments.html
+│   ├── 📄 icon.html
+│   ├── 📄 lang-link.html
+│   ├── 📄 page-description.html
+│   ├── 📄 page-width.html
+│   ├── 📄 sort-pages.html
+│   └── 📄 title.html
+├── 📄 badge.html
+├── 📄 callout.html
+├── 📄 card.html
+├── 📄 cards.html
+├── 📄 details.html
+├── 📄 icon.html
+├── 📄 image.html
+├── 📄 include.html
+├── 📄 jupyter.html
+├── 📄 pdf.html
+├── 📄 steps.html
+├── 📄 tab.html
+├── 📄 tabs.html
+├── 📁 filetree
+└── 📁 hextra
+    ├── 📄 container.html
+    ├── 📄 file.html
+    └── 📄 folder.html
+    ├── 📄 feature-card.html
+    ├── 📄 feature-grid.html
+    ├── 📄 hero-badge.html
+    ├── 📄 hero-button.html
+    ├── 📄 hero-container.html
+    ├── 📄 hero-headline.html
+    ├── 📄 hero-section.html
+    └── 📄 hero-subtitle.html
+├── 📄 baseof.html
+├── 📄 list.html
+├── 📄 list.rss.xml
+├── 📄 single.html
+├── 📄 taxonomy.html
+├── 📄 term.html
+├── 📄 wide.html
+└── 📁 _markup
+│   ├── 📄 render-blockquote-alert.html
+│   ├── 📄 render-blockquote-regular.html
+│   ├── 📄 render-codeblock-mermaid.html
+│   ├── 📄 render-codeblock.html
+│   ├── 📄 render-heading.html
+│   ├── 📄 render-image.html
+│   └── 📄 render-link.html

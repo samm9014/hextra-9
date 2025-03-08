@@ -57,7 +57,7 @@ menu:
         type: search
     - name: Coffee
       weight: 5
-      url: ""
+      url: "https://ko-fi.com/eightfortunes"
       params:
         icon: Coffee
 

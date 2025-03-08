@@ -1,58 +1,47 @@
 // assets/js/menu.js
-// Hamburger menu for mobile navigation
-
 document.addEventListener('DOMContentLoaded', function () {
-  const menu = document.querySelector('.hamburger-menu');
+  const menuButton = document.querySelector('.hamburger-menu');
+  const mobileMenu = document.querySelector('.mobile-dropdown-menu');
   const overlay = document.querySelector('.mobile-menu-overlay');
-  const sidebarContainer = document.querySelector('.sidebar-container');
-
-  // Exit early if any required element is missing
-  if (!menu || !overlay || !sidebarContainer) {
+  
+  if (!menuButton || !mobileMenu || !overlay) {
+    console.log("Menu elements not found:", {menuButton, mobileMenu, overlay});
     return;
   }
-
-  // Initialize the overlay
-  const overlayClasses = ['hx-fixed', 'hx-inset-0', 'hx-z-10', 'hx-bg-black/80', 'dark:hx-bg-black/60'];
-  overlay.classList.add('hx-bg-transparent');
-  overlay.classList.remove("hx-hidden", ...overlayClasses);
-
+  
   function toggleMenu() {
-    // Toggle the hamburger menu icon
-    const icon = menu.querySelector('svg');
-    if (icon) {
-      icon.classList.toggle('open');
-    }
-
-    // When the menu is open, we want to show the navigation sidebar
-    sidebarContainer.classList.toggle('max-md:[transform:translate3d(0,-100%,0)]');
-    sidebarContainer.classList.toggle('max-md:[transform:translate3d(0,0,0)]');
-
-    // When the menu is open, we want to prevent the body from scrolling
+    // Toggle icon animation
+    const icon = menuButton.querySelector('svg');
+    if (icon) icon.classList.toggle('open');
+    
+    // Toggle menu and overlay visibility
+    mobileMenu.classList.toggle('hx-hidden');
+    overlay.classList.toggle('hx-hidden');
+    
+    // Toggle body scroll
     document.body.classList.toggle('hx-overflow-hidden');
-    document.body.classList.toggle('md:hx-overflow-auto');
   }
-
-  menu.addEventListener('click', (e) => {
+  
+  menuButton.addEventListener('click', function(e) {
     e.preventDefault();
+    e.stopPropagation(); // Prevent search script errors
     toggleMenu();
-
-    if (overlay.classList.contains('hx-bg-transparent')) {
-      // Show the overlay
-      overlay.classList.add(...overlayClasses);
-      overlay.classList.remove('hx-bg-transparent');
-    } else {
-      // Hide the overlay
-      overlay.classList.remove(...overlayClasses);
-      overlay.classList.add('hx-bg-transparent');
-    }
   });
-
-  overlay.addEventListener('click', (e) => {
-    e.preventDefault();
+  
+  overlay.addEventListener('click', function() {
     toggleMenu();
-
-    // Hide the overlay
-    overlay.classList.remove(...overlayClasses);
-    overlay.classList.add('hx-bg-transparent');
+  });
+  
+  // Close menu when clicking a link
+  const menuLinks = mobileMenu.querySelectorAll('a');
+  menuLinks.forEach(link => {
+    link.addEventListener('click', function() {
+      toggleMenu();
+    });
+  });
+  
+  // Handle clicks inside the menu to prevent closing
+  mobileMenu.addEventListener('click', function(e) {
+    e.stopPropagation();
   });
 });

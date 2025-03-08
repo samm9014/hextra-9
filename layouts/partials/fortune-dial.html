@@ -1,9 +1,9 @@
 {{/* layouts/partials/fortune-dial.html */}}
-<div class="fortune-dial-container relative flex flex-col items-center justify-center my-8">
-  <div class="fortune-wheel-wrapper relative w-full max-w-md mx-auto">
+<div class="hx-fortune-dial-container hx-relative hx-flex hx-flex-col hx-items-center hx-justify-center hx-my-8">
+  <div class="hx-fortune-wheel-wrapper hx-relative hx-w-full hx-max-w-md hx-mx-auto">
     
     <!-- Pointer indicator with gradient definition -->
-    <div class="wheel-pointer absolute z-10">
+    <div class="hx-wheel-pointer hx-absolute hx-z-10">
       <svg width="0" height="0">
         <defs>
           <linearGradient id="pointerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -15,39 +15,48 @@
           </linearGradient>
         </defs>
       </svg>
+      
       {{ $pointerSvg := resources.Get "images/wheel-pointer.svg" }}
-      {{ $pointerSvg.Content | safeHTML }}
+      {{ if $pointerSvg }}
+        <img src="{{ $pointerSvg.RelPermalink }}" alt="Selection pointer" width="40" height="40" 
+             class="hx-pointer-svg" fetchpriority="high">
+      {{ end }}
     </div>
       
     <!-- The wheel -->
-    <div id="fortune-wheel" class="fortune-wheel transition-transform duration-[3000ms] ease-out">
-      <img id="fortune-wheel-image" src="data:image/svg+xml,%3Csvg width='400' height='400' viewBox='0 0 400 400' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='200' cy='200' r='198' fill='white' stroke='%23e5e7eb' stroke-width='2'/%3E%3Cpath d='M200,200 L200,2 A198,198 0 0,1 342.6,57.4 Z' fill='%23F87171' stroke='white'/%3E%3Cpath d='M200,200 L342.6,57.4 A198,198 0 0,1 398,200 Z' fill='%2360A5FA' stroke='white'/%3E%3Cpath d='M200,200 L398,200 A198,198 0 0,1 342.6,342.6 Z' fill='%2334D399' stroke='white'/%3E%3Cpath d='M200,200 L342.6,342.6 A198,198 0 0,1 200,398 Z' fill='%23A78BFA' stroke='white'/%3E%3Cpath d='M200,200 L200,398 A198,198 0 0,1 57.4,342.6 Z' fill='%23FBBF24' stroke='white'/%3E%3Cpath d='M200,200 L57.4,342.6 A198,198 0 0,1 2,200 Z' fill='%23F472B6' stroke='white'/%3E%3Cpath d='M200,200 L2,200 A198,198 0 0,1 57.4,57.4 Z' fill='%236EE7B7' stroke='white'/%3E%3Cpath d='M200,200 L57.4,57.4 A198,198 0 0,1 200,2 Z' fill='%2393C5FD' stroke='white'/%3E%3Ccircle cx='200' cy='200' r='50' fill='%233B82F6'/%3E%3Ctext x='200' y='205' text-anchor='middle' fill='white' font-family='sans-serif' font-size='16' font-weight='bold'%3ESPIN%3C/text%3E%3C/svg%3E" alt="Fortune Wheel" class="w-full h-auto">
+    <div id="fortune-wheel" class="hx-fortune-wheel hx-transition-transform hx-duration-[3000ms] hx-ease-out" 
+         tabindex="0" role="button" aria-label="Spin the fortune wheel">
+      {{ $wheelSvg := resources.Get "images/fortune-wheel.svg" }}
+      {{ if $wheelSvg }}
+        <img id="fortune-wheel-image" src="{{ $wheelSvg.RelPermalink }}" alt="Fortune Wheel" 
+             class="hx-w-full hx-h-auto" width="400" height="400" fetchpriority="high">
+      {{ end }}
       
-      <!-- Category labels (replacing icons) -->
-      <div id="wheel-segment-labels" class="wheel-segment-labels"></div>
+      <!-- Container for dynamic segment labels -->
+      <div id="wheel-segment-labels" class="hx-wheel-segment-labels"></div>
     </div>
     
     <!-- Category List Box -->
-    <div class="category-box">
+    <div class="hx-category-box">
       <!-- Selection Highlight -->
-      <div class="selection-highlight"></div>
+      <div class="hx-selection-highlight"></div>
       
       <!-- Fixed slots for categories -->
-      <div class="category-slots">
+      <div class="hx-category-slots">
         <!-- Previous slot -->
-        <div id="prev-category" class="category-slot"></div>
+        <div id="prev-category" class="hx-category-slot hx-prev-slot"></div>
         
         <!-- Current slot -->
-        <div id="current-category" class="category-slot"></div>
+        <div id="current-category" class="hx-category-slot hx-current-slot"></div>
         
         <!-- Next slot -->
-        <div id="next-category" class="category-slot"></div>
+        <div id="next-category" class="hx-category-slot hx-next-slot"></div>
       </div>
     </div>
   </div>
   
   <!-- Result display -->
-  <div id="fortune-result" class="fortune-result mt-6 text-center p-4 rounded-lg bg-gray-100 dark:bg-gray-800 transition-all duration-300 opacity-0">
+  <div id="fortune-result" class="hx-fortune-result hx-mt-6 hx-text-center hx-p-4 hx-rounded-lg hx-bg-gray-100 dark:hx-bg-gray-800 hx-transition-all hx-duration-300 hx-opacity-0">
     <div id="result-content"></div>
   </div>
 </div>

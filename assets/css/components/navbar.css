@@ -54,3 +54,25 @@ nav {
     }
   }
 }
+
+/* Add this to your navbar.css */
+.hamburger-menu {
+  position: relative;
+  z-index: 30;
+  cursor: pointer;
+}
+
+.hamburger-menu {
+  position: relative;
+  z-index: 50 !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+.mobile-menu-overlay {
+  z-index: 40 !important;
+}
+
+.sidebar-container {
+  z-index: 45 !important;
+}

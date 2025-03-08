@@ -15,6 +15,17 @@
   </div>
 </div>
 
+<!-- Preload critical assets for better performance -->
+{{ $wheelSvg := resources.Get "images/fortune-wheel.svg" }}
+{{ if $wheelSvg }}
+<link rel="preload" href="{{ $wheelSvg.RelPermalink }}" as="image" type="image/svg+xml">
+{{ end }}
+
+{{ $pointerSvg := resources.Get "images/wheel-pointer.svg" }}
+{{ if $pointerSvg }}
+<link rel="preload" href="{{ $pointerSvg.RelPermalink }}" as="image" type="image/svg+xml">
+{{ end }}
+
 <!-- Add JavaScript for the fortune wheel -->
 {{ $js := resources.Get "js/fortune-wheel.js" | resources.Minify | resources.Fingerprint }}
 <script src="{{ $js.RelPermalink }}" defer></script>
@@ -27,16 +38,41 @@
 {{ $css := resources.Get "css/components/fortune-wheel.css" | resources.Minify | resources.Fingerprint }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 
-
-
+<!-- Enable hardware acceleration for wheel -->
 <style>
+  .hx-fortune-wheel {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  
+  /* Optimize for mobile */
+  @media (max-width: 320px) {
+    .hx-category-box {
+      height: 120px;
+    }
+    
+    .hx-category-slot {
+      height: 40px;
+    }
+    
+    .hx-selection-highlight {
+      height: 40px;
+      top: 40px;
+    }
+    
+    .hx-category-name {
+      font-size: 0.8rem;
+    }
+  }
+
   /* Dark mode fixes */
   @media (prefers-color-scheme: dark) {
     #prev-category, #current-category, #next-category {
       color: white;
     }
     
-    .selection-highlight {
+    .hx-selection-highlight {
       background-color: #374151 !important;
     }
     
@@ -52,7 +88,7 @@
     color: white;
   }
   
-  .dark .selection-highlight {
+  .dark .hx-selection-highlight {
     background-color: #374151 !important;
   }
   
@@ -60,5 +96,4 @@
     background-color: #1f2937 !important;
   }
 </style>
-
 {{ end }}
